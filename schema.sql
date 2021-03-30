@@ -222,6 +222,67 @@ LOCK TABLES `movie` WRITE;
 /*!40000 ALTER TABLE `movie` DISABLE KEYS */;
 /*!40000 ALTER TABLE `movie` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER before_movie_delete
+BEFORE DELETE
+ON movie FOR EACH ROW
+BEGIN
+    INSERT INTO old_movie (id,
+  isPartOf,
+  headline,
+  alternativeHeadLine,
+  trailerURL,
+  about,
+  abstract,
+  musicBy,
+  producer,
+  duration,
+  datePublished,
+  locationCreated,
+  contentRating,
+  copyrightHolder,
+  copyrightYear,
+  creator,
+  inLanguage,
+  isFamilyFriendly,
+  keywords,
+  dateCreated,
+  dateModified)
+    VALUES(OLD.id,
+  OLD.isPartOf,
+  OLD.headline,
+  OLD.alternativeHeadLine,
+  OLD.trailerURL,
+  OLD.about,
+  OLD.abstract,
+  OLD.musicBy,
+  OLD.producer,
+  OLD.duration,
+  OLD.datePublished,
+  OLD.locationCreated,
+  OLD.contentRating,
+  OLD.copyrightHolder,
+  OLD.copyrightYear,
+  OLD.creator,
+  OLD.inLanguage,
+  OLD.isFamilyFriendly,
+  OLD.keywords,
+  OLD.dateCreated,
+  OLD.dateModified);
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `movie_list`
@@ -276,6 +337,48 @@ CREATE TABLE `movie_list_item` (
 LOCK TABLES `movie_list_item` WRITE;
 /*!40000 ALTER TABLE `movie_list_item` DISABLE KEYS */;
 /*!40000 ALTER TABLE `movie_list_item` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `old_movie`
+--
+
+DROP TABLE IF EXISTS `old_movie`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `old_movie` (
+  `id` int(11) NOT NULL,
+  `isPartOf` int(11) DEFAULT NULL,
+  `headline` varchar(45) DEFAULT NULL,
+  `alternativeHeadLine` varchar(45) DEFAULT NULL,
+  `trailerURL` varchar(45) DEFAULT NULL,
+  `about` text DEFAULT NULL,
+  `abstract` text DEFAULT NULL,
+  `musicBy` varchar(45) DEFAULT NULL,
+  `producer` varchar(45) DEFAULT NULL,
+  `duration` int(11) DEFAULT NULL,
+  `datePublished` date DEFAULT NULL,
+  `locationCreated` varchar(45) DEFAULT NULL,
+  `contentRating` double DEFAULT NULL,
+  `copyrightHolder` varchar(45) DEFAULT NULL,
+  `copyrightYear` varchar(45) DEFAULT NULL,
+  `creator` varchar(45) DEFAULT NULL,
+  `inLanguage` varchar(45) DEFAULT NULL,
+  `isFamilyFriendly` tinyint(4) DEFAULT NULL,
+  `keywords` varchar(45) DEFAULT NULL,
+  `dateCreated` date DEFAULT NULL,
+  `dateModified` date DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `old_movie`
+--
+
+LOCK TABLES `old_movie` WRITE;
+/*!40000 ALTER TABLE `old_movie` DISABLE KEYS */;
+/*!40000 ALTER TABLE `old_movie` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -569,4 +672,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-29 23:49:26
+-- Dump completed on 2021-03-30 15:00:26
