@@ -27,6 +27,7 @@ namespace src
         {
 
             services.AddControllers();
+            services.AddDbContext<ApplicationDbContext>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "src", Version = "v1" });
