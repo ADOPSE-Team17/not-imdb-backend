@@ -1,14 +1,20 @@
 default:
 	make dev
 
-start:
-	dotnet run --project src
+restore:
+	dotnet restore src
+
+build:
+	dotnet build src
 
 run:
-	make dev
+	dotnet run --project src
+
+start:
+	make build && make run	
 
 dev:
 	dotnet watch run --project src
 
-restore:
-	dotnet restore src
+migrate:
+	cd src && dotnet ef database update && cd ..
