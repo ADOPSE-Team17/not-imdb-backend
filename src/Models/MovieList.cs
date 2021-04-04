@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace src
 {
@@ -8,9 +9,12 @@ namespace src
     [Key]
     public int Id { get; set; }
 
-    public User owner { get; set; }
+    [ForeignKey("User")]
+    public int ownerId {get; set;}
 
-    public List<MovieListItem> items { get; set; }
+    public virtual User owner { get; set; }
+
+    public virtual List<MovieListItem> items { get; set; }
 
     public string itemListOrder { get; set; }
 

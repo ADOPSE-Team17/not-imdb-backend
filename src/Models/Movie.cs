@@ -10,15 +10,18 @@ namespace src
     [Key]
     public int Id { get; set; }
 
-    public Movie isPartOf { get; set; }
+    [ForeignKey("Movie")]
+    public int isPartOf { get; set; }
 
-    public List<Comment> comments { get; set; }
+    public virtual Movie parentMovie {get; set;}
 
-    public List<Rating> ratings { get; set; }
+    public virtual List<Comment> comments { get; set; }
 
-    public List<Event> events { get; set; }
+    public virtual List<Rating> ratings { get; set; }
 
-    public List<Product> products { get; set; }
+    public virtual List<Event> events { get; set; }
+
+    public virtual List<Product> products { get; set; }
 
     public string additionalType { get; set; }
 
