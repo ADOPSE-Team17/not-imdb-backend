@@ -11,6 +11,9 @@ namespace src
 
     public User creator { get; set; }
 
+    [ForeignKey("Movie")]
+    public int about { get; set; }
+
     public string commentText { get; set; }
 
     [Column(TypeName = "Date")]

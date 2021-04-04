@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace src
@@ -6,6 +7,8 @@ namespace src
   {
     [Key]
     public int Id { get; set; }
+
+    public virtual List<Movie> movies { get; set; }
 
     public string headline { get; set; }
 

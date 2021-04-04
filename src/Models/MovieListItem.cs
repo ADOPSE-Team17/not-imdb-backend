@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace src
 {
@@ -7,9 +8,13 @@ namespace src
     [Key]
     public int id { get; set; }
 
-    public MovieList parentList { get; set; }
+    [ForeignKey("MovieList")]
+    public int parentListId { get; set; }
 
-    public Movie item { get; set; }
+    [ForeignKey("Movie")]
+    public int movieId { get; set; }
+
+    public virtual Movie item { get; set; }
 
     public int order { get; set; }
   }
