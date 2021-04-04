@@ -1,21 +1,30 @@
 using System.Collections.Generic;
-// using System.Data.Entity.Core;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace src
 {
   public class User
   {
     [Key]
-    public string id { get; set; }
+    public int Id { get; set; }
 
-    public List<UserAccount> accounts { get; set; }
-
+    [ForeignKey("Person")]
     public int personId { get; set; }
 
-    public string username { get; set; }
+    public virtual List<Account> accounts { get; set; }
+
+    public virtual Person person { get; set; }
+
+    [Required]
+    public string username {get; set;}
 
     public bool isAdmin { get; set; }
+
+    public bool isActive { get; set; }
+
+    public bool isDisabled { get; set; }
+
+    public bool isDeleted { get; set; }
   }
 }

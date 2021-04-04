@@ -2,54 +2,29 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using src;
 
 namespace src.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210404091311_define_basic_models")]
+    partial class define_basic_models
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.4");
 
-            modelBuilder.Entity("EventMovie", b =>
-                {
-                    b.Property<int>("eventsId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("moviesId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("eventsId", "moviesId");
-
-                    b.HasIndex("moviesId");
-
-                    b.ToTable("EventMovie");
-                });
-
-            modelBuilder.Entity("MovieProduct", b =>
-                {
-                    b.Property<int>("moviesId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("productsId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("moviesId", "productsId");
-
-                    b.HasIndex("productsId");
-
-                    b.ToTable("MovieProduct");
-                });
-
             modelBuilder.Entity("src.Account", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("additionalType")
@@ -61,24 +36,11 @@ namespace src.Migrations
                     b.Property<string>("password")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("userId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("userId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Accounts");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            additionalType = "local",
-                            email = "admin01@example.com",
-                            password = "admin01",
-                            userId = 1
-                        });
                 });
 
             modelBuilder.Entity("src.Actor", b =>
@@ -104,9 +66,6 @@ namespace src.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("MovieId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("about")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("commentText")
@@ -150,6 +109,9 @@ namespace src.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("MovieId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("additionalType")
@@ -208,6 +170,8 @@ namespace src.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MovieId");
+
                     b.ToTable("Events");
                 });
 
@@ -262,7 +226,7 @@ namespace src.Migrations
                     b.Property<bool>("isFamilyFriendly")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("isPartOf")
+                    b.Property<int?>("isPartOfId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("locationCreated")
@@ -270,9 +234,6 @@ namespace src.Migrations
 
                     b.Property<string>("musicBy")
                         .HasColumnType("TEXT");
-
-                    b.Property<int?>("parentMovieId")
-                        .HasColumnType("INTEGER");
 
                     b.Property<string>("producer")
                         .HasColumnType("TEXT");
@@ -282,7 +243,7 @@ namespace src.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("parentMovieId");
+                    b.HasIndex("isPartOfId");
 
                     b.ToTable("Movies");
                 });
@@ -311,7 +272,7 @@ namespace src.Migrations
                     b.Property<int>("numberOfItems")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ownerId")
+                    b.Property<int?>("ownerId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -327,23 +288,20 @@ namespace src.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("MovieListId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("movieId")
+                    b.Property<int?>("itemId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("order")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("parentListId")
+                    b.Property<int?>("parentListId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("id");
 
-                    b.HasIndex("MovieListId");
+                    b.HasIndex("itemId");
 
-                    b.HasIndex("movieId");
+                    b.HasIndex("parentListId");
 
                     b.ToTable("MovieListItem");
                 });
@@ -384,21 +342,15 @@ namespace src.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("People");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            birthDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            familyName = "Root",
-                            givenName = "Admin"
-                        });
                 });
 
             modelBuilder.Entity("src.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("MovieId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("description")
@@ -414,6 +366,8 @@ namespace src.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MovieId");
 
                     b.ToTable("Products");
                 });
@@ -465,9 +419,6 @@ namespace src.Migrations
                     b.Property<int>("ratingValue")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("reviewAspect")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
                     b.HasIndex("MovieId");
@@ -495,11 +446,10 @@ namespace src.Migrations
                     b.Property<bool>("isDisabled")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("personId")
+                    b.Property<int?>("personId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("username")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -507,18 +457,6 @@ namespace src.Migrations
                     b.HasIndex("personId");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            isActive = true,
-                            isAdmin = true,
-                            isDeleted = false,
-                            isDisabled = false,
-                            personId = 1,
-                            username = "admin01"
-                        });
                 });
 
             modelBuilder.Entity("src.VoteAction", b =>
@@ -551,43 +489,11 @@ namespace src.Migrations
                     b.ToTable("VoteActions");
                 });
 
-            modelBuilder.Entity("EventMovie", b =>
-                {
-                    b.HasOne("src.Event", null)
-                        .WithMany()
-                        .HasForeignKey("eventsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("src.Movie", null)
-                        .WithMany()
-                        .HasForeignKey("moviesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("MovieProduct", b =>
-                {
-                    b.HasOne("src.Movie", null)
-                        .WithMany()
-                        .HasForeignKey("moviesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("src.Product", null)
-                        .WithMany()
-                        .HasForeignKey("productsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("src.Account", b =>
                 {
                     b.HasOne("src.User", null)
                         .WithMany("accounts")
-                        .HasForeignKey("userId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("src.Actor", b =>
@@ -621,39 +527,51 @@ namespace src.Migrations
                     b.Navigation("person");
                 });
 
+            modelBuilder.Entity("src.Event", b =>
+                {
+                    b.HasOne("src.Movie", null)
+                        .WithMany("events")
+                        .HasForeignKey("MovieId");
+                });
+
             modelBuilder.Entity("src.Movie", b =>
                 {
-                    b.HasOne("src.Movie", "parentMovie")
+                    b.HasOne("src.Movie", "isPartOf")
                         .WithMany()
-                        .HasForeignKey("parentMovieId");
+                        .HasForeignKey("isPartOfId");
 
-                    b.Navigation("parentMovie");
+                    b.Navigation("isPartOf");
                 });
 
             modelBuilder.Entity("src.MovieList", b =>
                 {
                     b.HasOne("src.User", "owner")
                         .WithMany()
-                        .HasForeignKey("ownerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ownerId");
 
                     b.Navigation("owner");
                 });
 
             modelBuilder.Entity("src.MovieListItem", b =>
                 {
-                    b.HasOne("src.MovieList", null)
-                        .WithMany("items")
-                        .HasForeignKey("MovieListId");
-
                     b.HasOne("src.Movie", "item")
                         .WithMany()
-                        .HasForeignKey("movieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("itemId");
+
+                    b.HasOne("src.MovieList", "parentList")
+                        .WithMany("items")
+                        .HasForeignKey("parentListId");
 
                     b.Navigation("item");
+
+                    b.Navigation("parentList");
+                });
+
+            modelBuilder.Entity("src.Product", b =>
+                {
+                    b.HasOne("src.Movie", null)
+                        .WithMany("products")
+                        .HasForeignKey("MovieId");
                 });
 
             modelBuilder.Entity("src.Rating", b =>
@@ -673,9 +591,7 @@ namespace src.Migrations
                 {
                     b.HasOne("src.Person", "person")
                         .WithMany()
-                        .HasForeignKey("personId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("personId");
 
                     b.Navigation("person");
                 });
@@ -696,6 +612,10 @@ namespace src.Migrations
             modelBuilder.Entity("src.Movie", b =>
                 {
                     b.Navigation("comments");
+
+                    b.Navigation("events");
+
+                    b.Navigation("products");
 
                     b.Navigation("ratings");
                 });
