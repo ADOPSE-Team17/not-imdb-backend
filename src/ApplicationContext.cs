@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -64,36 +65,61 @@ namespace src
         }
       }
     }
-  }
 
-  public interface IDataAdapterOptions
-  {
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
 
-  }
+      modelBuilder.Entity<Person>().HasData(new Person { Id = 1, familyName = "Root", givenName = "Admin" });
+      modelBuilder.Entity<User>().HasData(new User
+      {
+        Id = 1,
+        personId = 1,
+        username = "admin01",
+        isAdmin = true,
+        isActive = true,
+        isDeleted = false,
+        isDisabled = false
+      });
 
-  public interface IDataAdapterConfiguration
-  {
-    public string Dialect { get; set; }
-  }
+      modelBuilder.Entity<Account>().HasData(new Account
+      {
+        Id = 1,
+        userId = 1,
+        email = "admin01@example.com",
+        additionalType = "local",
+        password = "admin01"
+      });
+    }
 
-  public interface IDataAdapterExternalOptions : IDataAdapterOptions
-  {
-    public string Host { get; set; }
-    public string Port { get; set; }
+    public interface IDataAdapterOptions
+    {
 
-    public string Database { get; set; }
+    }
 
-    public string User { get; set; }
-    public string Password { get; set; }
-  }
+    public interface IDataAdapterConfiguration
+    {
+      public string Dialect { get; set; }
+    }
 
-  public interface IDataAdapterSqliteOptions : IDataAdapterOptions
-  {
-    public string Location { get; set; }
-  }
+    public interface IDataAdapterExternalOptions : IDataAdapterOptions
+    {
+      public string Host { get; set; }
+      public string Port { get; set; }
 
-  public interface IDataAdapterConfigurationMysql : IDataAdapterConfiguration
-  {
-    public IDataAdapterExternalOptions Options { get; set; }
+      public string Database { get; set; }
+
+      public string User { get; set; }
+      public string Password { get; set; }
+    }
+
+    public interface IDataAdapterSqliteOptions : IDataAdapterOptions
+    {
+      public string Location { get; set; }
+    }
+
+    public interface IDataAdapterConfigurationMysql : IDataAdapterConfiguration
+    {
+      public IDataAdapterExternalOptions Options { get; set; }
+    }
   }
 }
