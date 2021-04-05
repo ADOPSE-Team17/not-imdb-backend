@@ -2,7 +2,7 @@ default:
 	make dev
 
 restore:
-	dotnet restore src
+	dotnet restore src && dotnet tool restore --tool-manifest ./src/.config/dotnet-tools.json
 
 build:
 	dotnet build src
