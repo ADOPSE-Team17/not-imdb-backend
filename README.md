@@ -16,7 +16,7 @@ The application services for the NotIBDM project
 ### First time run
 - Install the dotnet SDK
 - Install `make`
-- Run `cp ./src/appsettings.json appsettings.Development.json` to generate the development configuration
+- Run `cp ./src/appsettings.json ./src/appsettings.Development.json` to generate the development configuration
 
 ### Actions for updating the project
 - Run `make restore` to install dependencies
