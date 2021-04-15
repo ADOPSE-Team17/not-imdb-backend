@@ -69,6 +69,10 @@ namespace src
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
 
+      modelBuilder.Entity<User>()
+        .HasIndex(u => u.username)
+        .IsUnique();
+
       modelBuilder.Entity<Person>().HasData(new Person { Id = 1, familyName = "Root", givenName = "Admin" });
       modelBuilder.Entity<User>().HasData(new User
       {

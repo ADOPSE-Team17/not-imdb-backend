@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
-using System;
 
 namespace src.Controllers
 {
@@ -98,7 +97,7 @@ namespace src.Controllers
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult<Movie>> DeleteTodoItem(int id)
+    public async Task<ActionResult<Movie>> DeleteMovie(int id)
     {
       var movie = await _context.Movies.FindAsync(id);
       if (movie == null)
