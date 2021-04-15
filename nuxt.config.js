@@ -15,6 +15,14 @@ export default {
     ]
   },
 
+  // ssr: false,
+  target: 'static',
+  srcDir: './src/client-app',
+  // publicPath: '/client',
+  router: {
+    base: '/client',
+  },
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
   ],
@@ -36,6 +44,9 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    // publicPath: '/client'
+    devtools: true,
+    cssSoruceMap: true
   },
 
   storybook: {
