@@ -14,6 +14,7 @@ start:
 	make build && make run	
 
 dev:
+	npm run generate
 	dotnet watch run --project src
 
 migrate:
