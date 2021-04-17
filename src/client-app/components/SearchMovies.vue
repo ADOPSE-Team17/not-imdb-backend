@@ -19,7 +19,7 @@
 
 <script>
 export default {
-    title:'SearchMovies',
+    name:'SearchMovies',
     methods:{
         search(){
             alert('Find That Movie')

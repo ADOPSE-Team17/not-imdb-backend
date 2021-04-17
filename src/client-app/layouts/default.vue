@@ -10,13 +10,13 @@
       <div class="ml-16">
         <Title/>
       </div>
-      <v-spacer />
-      <div>
+      
+      
         <Avatar
           v-show="loggedIn"
         />
-      </div>
-      <v-spacer/>
+      
+      
         <LoginButton
           v-show="!loggedIn"
         />
@@ -55,7 +55,6 @@ export default {
     return {
       loggedIn:false
     }
-  }
-  
+  },
 }
 </script>

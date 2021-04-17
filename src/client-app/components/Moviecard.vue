@@ -64,6 +64,7 @@
 
 <script>
 export default {
+    name:'MovieCard',
     props: {
         year:{
             type:String,

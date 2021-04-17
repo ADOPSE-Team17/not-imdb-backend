@@ -21,6 +21,7 @@ import MovieCard from '@/components/MovieCard.vue'
 
 
 export default {
+    name:'CarouselList',
     components: {
         MovieCard,
     },

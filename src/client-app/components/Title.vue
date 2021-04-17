@@ -1,14 +1,14 @@
 <template>
 
-    <svg xmlns="http://www.w3.org/2000/svg" width="200" height="150" viewBox="736 472 450 146">
-    <text id="not-IMDB" transform="translate(736 593)" fill="#000000" font-size="120" font-family="Impact"><tspan x="0" y="0">not-IMDB</tspan></text>
+    <svg
+        xmlns="http://www.w3.org/2000/svg" width="170" height="88" viewBox="0 0 207 88">
+        <text id="_imdb" data-name="!imdb" transform="translate(0 69)" font-size="74" font-family="Rubik-Bold, Rubik" font-weight="700"><tspan x="0" y="0">!imdb</tspan></text>
     </svg>
-
 </template>
 
 <script>
 export default {
-
+   name:'Title'
 }
 </script>
 

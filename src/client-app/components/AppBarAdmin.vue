@@ -52,7 +52,7 @@ import  Avatar  from '@/components/Avatar.vue';
 
 
 export default {
-    title:'AppBarAdmin',
+    name:'AppBarAdmin',
     components: { 
       Title,
       Avatar,

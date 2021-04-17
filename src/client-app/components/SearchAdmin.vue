@@ -13,7 +13,7 @@
 
 <script>
 export default {
-    title:'SearchAdmin',
+    name:'SearchAdmin',
    props:{
      placeholder:{
         type:String,

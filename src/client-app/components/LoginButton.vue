@@ -15,7 +15,7 @@
 
 <script>
 export default {
-    title:'LoginButton'
+    name:'LoginButton'
 
 }
 </script>

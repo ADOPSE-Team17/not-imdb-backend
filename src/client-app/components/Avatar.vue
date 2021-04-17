@@ -9,7 +9,7 @@
 
 <script>
 export default {
-    title:'Avatar'
+    name:'Avatar'
 }
 </script>
 
