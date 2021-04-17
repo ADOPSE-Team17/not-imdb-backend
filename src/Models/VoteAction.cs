@@ -9,7 +9,10 @@ namespace src
     [Key]
     public int Id { get; set; }
 
-    public User agent { get; set; }
+    public virtual User agent { get; set; }
+
+    [ForeignKey("User")]
+    public int userId {get; set;}
 
     public int answer { get; set; }
 

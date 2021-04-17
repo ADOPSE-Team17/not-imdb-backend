@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using src;
 
 namespace src.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210417132554_add_dates_at_question_model")]
+    partial class add_dates_at_question_model
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -545,6 +547,9 @@ namespace src.Migrations
                     b.Property<int?>("QuestionId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("agentId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("answer")
                         .HasColumnType("INTEGER");
 
@@ -554,14 +559,11 @@ namespace src.Migrations
                     b.Property<DateTime>("dateModified")
                         .HasColumnType("Date");
 
-                    b.Property<int>("userId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
                     b.HasIndex("QuestionId");
 
-                    b.HasIndex("userId");
+                    b.HasIndex("agentId");
 
                     b.ToTable("VoteActions");
                 });
@@ -703,9 +705,7 @@ namespace src.Migrations
 
                     b.HasOne("src.User", "agent")
                         .WithMany()
-                        .HasForeignKey("userId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("agentId");
 
                     b.Navigation("agent");
                 });
