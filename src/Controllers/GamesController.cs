@@ -10,14 +10,14 @@ namespace src.Controllers
 {
   [ApiController]
   [Route("[controller]")]
-  public class PollsController : ControllerBase
+  public class GamesController : ControllerBase
   {
-    private readonly ILogger<PollsController> _logger;
+    private readonly ILogger<GamesController> _logger;
     private readonly ApplicationDbContext _context;
 
 
-    public PollsController(
-      ILogger<PollsController> logger,
+    public GamesController(
+      ILogger<GamesController> logger,
       ApplicationDbContext context
     )
     {
@@ -30,7 +30,7 @@ namespace src.Controllers
     {
 
       var polls = await this._context.Questions
-        .Where(q => q.additionalType == Question.POLL)
+        .Where(q => q.additionalType == Question.GAME)
         .Include("answers")
         .ToArrayAsync();
 
@@ -41,7 +41,7 @@ namespace src.Controllers
     public async Task<ActionResult<Question>> show(int id)
     {
       Question poll = await this._context.Questions
-        .Where(q => q.Id == id && q.additionalType == Question.POLL)
+        .Where(q => q.Id == id && q.additionalType == Question.GAME)
         .Include("answers")
         .FirstOrDefaultAsync();
 
@@ -57,7 +57,7 @@ namespace src.Controllers
     public async Task<ActionResult<Question>> create(Question question)
     {
 
-      question.additionalType = Question.POLL;
+      question.additionalType = Question.GAME;
       if (question.datePublished.Equals(new DateTime()))
       {
         question.datePublished = DateTime.UtcNow;
@@ -99,7 +99,7 @@ namespace src.Controllers
         return BadRequest();
       }
 
-      Question localQ = await this._context.Questions.Where(q => q.Id == id && q.additionalType == Question.POLL).FirstOrDefaultAsync();
+      Question localQ = await this._context.Questions.Where(q => q.Id == id && q.additionalType == Question.GAME).FirstOrDefaultAsync();
       if (localQ is null)
       {
         return NotFound();
@@ -113,6 +113,7 @@ namespace src.Controllers
         endDate = q.endDate.Equals(new DateTime()) ? localQ.endDate : q.datePublished,
         datePublished = q.datePublished.Equals(new DateTime()) ? localQ.datePublished : q.datePublished,
         description = q.description is null ? localQ.description : q.description,
+        correctAnswer = q.correctAnswer <= 0 ? localQ.correctAnswer : q.correctAnswer,
         additionalType = localQ.additionalType,
         alternateName = localQ.alternateName,
         optionSet = localQ.optionSet,
@@ -126,7 +127,7 @@ namespace src.Controllers
 
       await this._context.SaveChangesAsync();
       Question updated = await this._context.Questions
-        .Where(q => q.Id == id)
+        .Where(q => q.Id == id && q.additionalType == Question.GAME)
         .Include("answers")
         .FirstOrDefaultAsync();
 
@@ -139,7 +140,7 @@ namespace src.Controllers
     {
 
       // Find the user in the database
-      var question = await _context.Questions.Where(q => q.Id == id && q.additionalType == Question.POLL).FirstOrDefaultAsync();
+      var question = await _context.Questions.Where(q => q.Id == id && q.additionalType == Question.GAME).FirstOrDefaultAsync();
       if (question == null)
       {
         return NotFound();
