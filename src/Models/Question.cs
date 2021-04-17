@@ -9,7 +9,7 @@ namespace src
   {
 
     public static readonly string POLL = "poll";
-    public static readonly string Game = "game";
+    public static readonly string GAME = "game";
 
     [Key]
     public int Id { get; set; }
@@ -26,6 +26,8 @@ namespace src
 
     public string optionSet { get; set; }
 
+    public int correctAnswer { get; set; }
+
     [Column(TypeName = "Date")]
     public DateTime startDate { get; set; }
 
@@ -41,5 +43,18 @@ namespace src
 
     [Column(TypeName = "Date")]
     public DateTime dateModified { get; set; }
+  }
+
+  public class QuestionUpdateDto
+  {
+    public int Id { get; set; }
+    public string title { get; set; }
+    public string description { get; set; }
+    public int correctAnswer { get; set; }
+    public DateTime startDate { get; set; }
+
+    public DateTime endDate { get; set; }
+
+    public DateTime datePublished { get; set; }
   }
 }
