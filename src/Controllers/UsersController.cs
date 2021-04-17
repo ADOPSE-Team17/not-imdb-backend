@@ -59,26 +59,20 @@ namespace src.Controllers
     {
 
       var existingUsers = await this._context.Users.Where(u => u.username == user.username).ToArrayAsync();
-
       if (existingUsers.Length >= 1)
       {
         return Conflict($"Username {user.username} already exists");
       }
 
       Person person = new Person();
-      this._context.People.Add(person);
-      await _context.SaveChangesAsync();
+      this._context.Set<Person>().Attach(person);
 
-      User newUser = new User()
-      {
-        username = $@"{user.username}",
-        isAdmin = user.isAdmin,
-        personId = person.Id,
-        isDisabled = false,
-        isActive = false,
-        isDeleted = false
-      };
-      this._context.Users.Add(newUser);
+      User newUser = new User();
+      newUser.username = $"{user.username}";
+      newUser.isAdmin = user.isAdmin;
+      newUser.person = person;
+      this._context.Set<User>().Attach(newUser);
+
       await _context.SaveChangesAsync();
       return new UserDto(newUser);
     }

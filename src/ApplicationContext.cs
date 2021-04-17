@@ -73,6 +73,10 @@ namespace src
         .HasIndex(u => u.username)
         .IsUnique();
 
+      modelBuilder.Entity<Account>()
+        .HasIndex(a => a.email)
+        .IsUnique();
+
       modelBuilder.Entity<Person>().HasData(new Person { Id = 1, familyName = "Root", givenName = "Admin" });
       modelBuilder.Entity<User>().HasData(new User
       {
