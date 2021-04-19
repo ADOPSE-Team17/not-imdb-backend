@@ -6,6 +6,10 @@ namespace src
 {
   public class MovieList
   {
+    public static readonly string FAVORITES="fav";
+    public static readonly string WATCHLIST="watch";
+    public static readonly string TOPTEN="top";
+
     [Key]
     public int Id { get; set; }
 

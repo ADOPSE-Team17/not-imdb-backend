@@ -7,40 +7,43 @@ using Microsoft.Extensions.Logging;
 
 namespace src.Controllers
 {
-  [ApiController]
-  [Route("[controller]")]
+
   public class MovieListsController : ControllerBase
   {
     private readonly ILogger<MovieListsController> _logger;
     private readonly ApplicationDbContext _context;
+    private readonly string additionalType;
 
 
     public MovieListsController(
       ILogger<MovieListsController> logger,
-      ApplicationDbContext context
+      ApplicationDbContext context,
+      string type
     )
     {
       _logger = logger;
       _context = context;
+      additionalType = type;
     }
 
-    [HttpGet]
+    [ApiExplorerSettings(IgnoreApi=true)]
     public async Task<ActionResult<IEnumerable<MovieList>>> list()
     {
 
       var lists = await this._context.MovieLists
-        .Include("user")
+        .Where(m=>m.additionalType==this.additionalType) 
+        .Include("items")
         .ToArrayAsync();
 
       return lists;
     }
 
-    [HttpGet("{id}")]
+    [ApiExplorerSettings(IgnoreApi=true)]
     public async Task<ActionResult<MovieList>> GetMovieList(int id)
     {
       var list = await this._context.MovieLists
-        .Include("user")
-        .Where(m => m.Id == id)
+        .Where(m => m.Id == id && m.additionalType==this.additionalType)
+        .Include("items")
         .FirstOrDefaultAsync();
 
       if (list is null)
@@ -51,15 +54,16 @@ namespace src.Controllers
       return list;
     }
 
-    [HttpPost]
+    [ApiExplorerSettings(IgnoreApi=true)]
     public async Task<ActionResult<MovieList>> CreateMovieList(MovieList list)
     {
+      list.additionalType = this.additionalType;
       this._context.MovieLists.Add(list);
       await _context.SaveChangesAsync();
       return list;
     }
 
-    [HttpPut("{id}")]
+    [ApiExplorerSettings(IgnoreApi=true)]
     public async Task<ActionResult<MovieList>> UpdateMovieList(int id, MovieList list)
     {
 
@@ -69,7 +73,7 @@ namespace src.Controllers
       }
 
       _context.Entry(list).State = EntityState.Modified;
-      var localList = await this._context.MovieLists.Where(m => m.Id == id).FirstOrDefaultAsync();
+      var localList = await this._context.MovieLists.Where(m => m.Id == id && m.additionalType==this.additionalType).FirstOrDefaultAsync();
 
       try
       {
@@ -91,10 +95,11 @@ namespace src.Controllers
 
     }
 
-    [HttpDelete("{id}")]
+    [ApiExplorerSettings(IgnoreApi=true)]
     public async Task<ActionResult<MovieList>> DeleteMovieList(int id)
     {
-      var list = await _context.MovieLists.FindAsync(id);
+      var list = await _context.MovieLists.Where(m => m.Id == id && m.additionalType==this.additionalType).FirstOrDefaultAsync();
+
       if (list == null)
       {
         return NotFound();
