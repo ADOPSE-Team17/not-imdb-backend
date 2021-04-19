@@ -10,9 +10,9 @@ namespace src.Controllers
 
   public class MovieListsController : ControllerBase
   {
-    private readonly ILogger<MovieListsController> _logger;
-    private readonly ApplicationDbContext _context;
-    private readonly string additionalType;
+    protected readonly ILogger<MovieListsController> _logger;
+    protected readonly ApplicationDbContext _context;
+    protected readonly string additionalType;
 
 
     public MovieListsController(

@@ -51,5 +51,38 @@ namespace src.Controllers
         return await base.DeleteMovieList(id);
     }
 
+    [HttpPost("{id}")]
+    public async Task<ActionResult<MovieList>> AddMovieListItem(int id, MovieListItem item)
+    {
+      
+      MovieList list = this._context.MovieLists.Where(m => m.Id == id && m.additionalType == this.additionalType).FirstOrDefault();
+      if (list is null) 
+      {
+        return NotFound();
+      }
+
+      try
+      {
+        if (list.items is null) 
+        {
+          list.items = new List<MovieListItem>(); 
+        }
+        this._context.Set<MovieListItem>().Attach(item);
+        if (list.items.Any(m => m.movieId == item.movieId)) 
+        {
+          return Conflict(new {
+            message = "movie already excists"
+          });
+        }
+        list.items.Add(item);
+      } 
+      catch 
+      {
+        return NotFound();
+      } 
+
+      await this._context.SaveChangesAsync();
+      return list;
+    }
   }
 }
