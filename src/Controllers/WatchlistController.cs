@@ -20,7 +20,6 @@ namespace src.Controllers
 
     }
 
-
     [HttpGet]
     public new async Task<ActionResult<IEnumerable<MovieList>>> list()
     {
@@ -45,8 +44,8 @@ namespace src.Controllers
         return await base.UpdateMovieList(id, list);
     }
 
-    [HttpDelete("{id}")]
-    public new async Task<ActionResult<MovieList>> DeleteMovieList(int id) 
+    [HttpPatch("{id}")]
+    public new async Task<ActionResult<MovieList>> DeleteMovieList(int id)
     {
         return await base.DeleteMovieList(id);
     }
@@ -71,7 +70,7 @@ namespace src.Controllers
         if (list.items.Any(m => m.movieId == item.movieId)) 
         {
           return Conflict(new {
-            message = "movie already excists"
+            message = "movie already exists"
           });
         }
         list.items.Add(item);
@@ -81,6 +80,38 @@ namespace src.Controllers
         return NotFound();
       } 
 
+      await this._context.SaveChangesAsync();
+      return list;
+    }
+    
+    [HttpDelete("{id}")]
+    public async Task<ActionResult<MovieList>> RemoveMovieListItem(int id, MovieListItem item)
+    {
+      MovieList list = this._context.MovieLists.Where(m => m.Id == id && m.additionalType == this.additionalType).FirstOrDefault();
+      if (list is null) 
+      {
+        return NotFound();
+      }
+      try
+      {
+        if (list.items is null) 
+        {
+          return Conflict(new {
+            message = "the list is empty"
+          });
+        }
+        if (!list.items.Any(m => m.movieId == item.movieId)) 
+        {
+          return Conflict(new {
+            message = "item doesn't exists"
+          });
+        }
+        list.items.Remove(item);
+      }
+      catch
+      {
+        return NotFound();
+      }
       await this._context.SaveChangesAsync();
       return list;
     }
