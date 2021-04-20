@@ -1,6 +1,6 @@
 <template>
   <v-app
-    style="color:#ffee07;"
+    dark
     >
         <v-app-bar
         fixed
@@ -27,9 +27,9 @@
     </v-app-bar>
         <!-- The nuxt element is where the whole app takes place -->
         <v-main>
-          <v-container>
+         
           <Nuxt />
-          </v-container>
+          
         </v-main>
         <v-footer
       app

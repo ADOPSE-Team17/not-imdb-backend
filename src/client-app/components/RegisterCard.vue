@@ -31,7 +31,6 @@
                     <v-text-field
                         class="pa-16"
                         :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                        :rules="[rules.required, rules.emailMatch]"
                         :type="show ? 'text' : 'password'"
                         name="input-10-2"
                         label="Password"
@@ -46,7 +45,6 @@
                     <v-text-field
                         class="pa-16"
                         :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                        :rules="[rules.required, rules.emailMatch]"
                         :type="show ? 'text' : 'password'"
                         name="input-10-2"
                         label="Confirm Password"
@@ -62,10 +60,7 @@
                 <v-col>
                     <v-btn
                     class="ma-8"
-                    :loading="loading"
-                    :disabled="loading"
                     color="blue"
-                    @click="loader = 'loading'"
                     >
                     Sign me Up!
                     </v-btn>
@@ -73,10 +68,7 @@
                 <v-col>
                     <v-btn
                     class="ma-8"
-                    :loading="loading"
-                    :disabled="loading"
                     color="blue"
-                    @click="loader = 'loading'"
                     >
                     Use SSO
                     </v-btn>
@@ -93,22 +85,7 @@ export default {
   data(){
         return{
             show:false,
-            rules: {
-            required: value => !!value || 'Required.',
-            min: v => v.length >= 8 || 'Min 8 characters',
-            emailMatch: () => (`The email and password you entered don't match`),
-            },
         }
-    },
-    watch: {
-      loader () {
-        const l = this.loader
-        this[l] = !this[l]
-
-        setTimeout(() => (this[l] = false), 3000)
-
-        this.loader = null
-      },
     },
 }
 </script>
