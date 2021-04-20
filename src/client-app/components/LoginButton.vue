@@ -4,12 +4,12 @@
     align="center"
     
   >
-    <v-chip draggable
-    class="black"
+    <v-btn 
+    class="black white--text"
     href="/Login"
     >
       Sign In
-    </v-chip>
+    </v-btn>
     </v-col>
 </template>
 

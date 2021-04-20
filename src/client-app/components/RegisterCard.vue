@@ -1,6 +1,6 @@
 <template>
   <v-card
-        class="mx-auto my-12"
+        class="mx-auto grey darken-3"
         max-width="500"
       >
         <v-card-title>Register</v-card-title>
@@ -11,7 +11,7 @@
                 class="mx-0"
                 >
                     <v-text-field
-                        class="pa-16"
+                        class="pa-16 white--text"
                         label="username"
                     ></v-text-field> 
                 </v-row>
@@ -20,7 +20,7 @@
                 class="mx-0"
                 >
                     <v-text-field
-                        class="pa-16"
+                        class="pa-16 white--text"
                         label="Email"
                     ></v-text-field> 
                 </v-row>
@@ -29,7 +29,7 @@
                 class="mx-0"
                 >
                     <v-text-field
-                        class="pa-16"
+                        class="pa-16 white--text"
                         :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                         :type="show ? 'text' : 'password'"
                         name="input-10-2"
@@ -43,7 +43,7 @@
                 align="center"
                 class="mx-0">
                     <v-text-field
-                        class="pa-16"
+                        class="pa-16 white--text"
                         :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                         :type="show ? 'text' : 'password'"
                         name="input-10-2"
@@ -60,7 +60,7 @@
                 <v-col>
                     <v-btn
                     class="ma-8"
-                    color="blue"
+                    color="black white--text"
                     >
                     Sign me Up!
                     </v-btn>
@@ -68,7 +68,7 @@
                 <v-col>
                     <v-btn
                     class="ma-8"
-                    color="blue"
+                    color="black white--text"
                     >
                     Use SSO
                     </v-btn>

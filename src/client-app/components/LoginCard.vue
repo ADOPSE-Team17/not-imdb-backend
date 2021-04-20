@@ -1,6 +1,6 @@
 <template>
    <v-card
-        class="mx-auto my-12"
+        class="mx-auto grey darken-3"
         max-width="500"
       >
         <v-card-title>Login</v-card-title>
@@ -11,7 +11,7 @@
                 class="mx-0"
                 >
                     <v-text-field
-                        class="pa-16"
+                        class="pa-16 white--text"
                         label="username"
                     ></v-text-field> 
                 </v-row>
@@ -20,7 +20,7 @@
                 class="mx-0"
                 >
                     <v-text-field
-                        class="pa-16 input-group--focused"
+                        class="pa-16 input-group--focused white--text"
                         label="Password"
                         hint="At least 8 characters"
                         :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
@@ -36,7 +36,7 @@
                 <v-col>
                     <v-btn
                     class="ma-8"
-                    color="blue"
+                    color="black white--text"
                     >
                     Log In
                     </v-btn>
@@ -44,7 +44,7 @@
                 <v-col>
                     <v-btn
                     class="ma-8"
-                    color="blue"
+                    color="black white--text"
                     >
                     Use SSO
                     </v-btn>

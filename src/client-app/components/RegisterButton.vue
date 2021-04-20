@@ -4,12 +4,12 @@
     align="center"
     
   >
-    <v-chip draggable
-    class="black"
+    <v-btn 
     href="/Register"
+    class="black white--text"
     >
       Register
-    </v-chip>
+    </v-btn>
     </v-col>
 </template>
 
