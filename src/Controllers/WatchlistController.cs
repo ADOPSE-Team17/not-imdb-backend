@@ -44,7 +44,7 @@ namespace src.Controllers
         return await base.UpdateMovieList(id, list);
     }
 
-    [HttpPatch("{id}")]
+    [HttpDelete("{id}")]
     public new async Task<ActionResult<MovieList>> DeleteMovieList(int id)
     {
         return await base.DeleteMovieList(id);
@@ -54,7 +54,11 @@ namespace src.Controllers
     public async Task<ActionResult<MovieList>> AddMovieListItem(int id, MovieListItem item)
     {
       
-      MovieList list = this._context.MovieLists.Where(m => m.Id == id && m.additionalType == this.additionalType).FirstOrDefault();
+      MovieList list = await this._context.MovieLists
+        .Where(m => m.Id == id && m.additionalType.Equals(MovieList.WATCHLIST))
+        .Include("items")
+        .FirstOrDefaultAsync();
+        
       if (list is null) 
       {
         return NotFound();
@@ -84,34 +88,24 @@ namespace src.Controllers
       return list;
     }
     
-    [HttpDelete("{id}")]
-    public async Task<ActionResult<MovieList>> RemoveMovieListItem(int id, MovieListItem item)
-    {
-      MovieList list = this._context.MovieLists.Where(m => m.Id == id && m.additionalType == this.additionalType).FirstOrDefault();
-      if (list is null) 
-      {
-        return NotFound();
+    [HttpDelete("{listId}/remove/{movieId}")]
+    public async Task<ActionResult<MovieList>> RemoveListItem(int listId, int movieId) {
+      MovieList list = await this._context.MovieLists
+        .Where(m => m.Id == listId && m.additionalType.Equals(MovieList.WATCHLIST))
+        .Include("items")
+        .FirstOrDefaultAsync();
+      
+      if (list is null) {
+        return NotFound(new {
+          message = "watch  list was not found"
+        });
+      } else if (!(list is null) && !(list.items.Any(i => i.movieId == movieId))) {
+        return BadRequest(new {
+          message = "Movie is not in the list"
+        });
       }
-      try
-      {
-        if (list.items is null) 
-        {
-          return Conflict(new {
-            message = "the list is empty"
-          });
-        }
-        if (!list.items.Any(m => m.movieId == item.movieId)) 
-        {
-          return Conflict(new {
-            message = "item doesn't exists"
-          });
-        }
-        list.items.Remove(item);
-      }
-      catch
-      {
-        return NotFound();
-      }
+
+      list.items = list.items.Where( i => i.movieId != movieId).ToList();
       await this._context.SaveChangesAsync();
       return list;
     }
