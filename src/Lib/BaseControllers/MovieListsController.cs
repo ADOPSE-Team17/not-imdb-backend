@@ -98,14 +98,17 @@ namespace src.Controllers
     [ApiExplorerSettings(IgnoreApi=true)]
     public async Task<ActionResult<MovieList>> DeleteMovieList(int id)
     {
-      var list = await _context.MovieLists.Where(m => m.Id == id && m.additionalType==this.additionalType).FirstOrDefaultAsync();
+      var list = await _context.MovieLists.Where(m => m.Id == id && m.additionalType==this.additionalType).Include("items").FirstOrDefaultAsync();
 
       if (list == null)
       {
         return NotFound();
       }
 
-      _context.MovieLists.Remove(list);
+      if (!(list.items is null)) {
+        list.items.ForEach(i => this._context.Entry(i).State = EntityState.Deleted);
+      }
+      this._context.Entry(list).State = EntityState.Deleted;;
       await _context.SaveChangesAsync();
 
       return list;
