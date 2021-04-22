@@ -13,7 +13,7 @@
     <v-card-title>Title</v-card-title>
 
     <v-card-text
-    v-f
+    
     >
         <v-row align="center">
             <v-col><div class="my-4 subtitle-1">{{year}}</div></v-col>
@@ -64,6 +64,7 @@
 
 <script>
 export default {
+    name:'MovieCard',
     props: {
         year:{
             type:String,

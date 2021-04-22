@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
     "build": "nuxt build",
-    "start": "nuxt start",
+    "dev": "nuxt",
     "generate": "nuxt generate",
+    "start": "nuxt start",
     "storybook": "nuxt storybook"
   },
   "dependencies": {
@@ -16,6 +16,11 @@
   },
   "devDependencies": {
     "@nuxtjs/storybook": "^4.0.1",
-    "postcss": "^8.2.9"
+    "@nuxtjs/vuetify": "^1.11.3",
+    "postcss": "^8.2.9",
+    "sass": "^1.32.8",
+    "sass-loader": "^10.0.0",
+    "vue-cli-plugin-vuetify": "~2.3.1",
+    "vuetify-loader": "^1.7.0"
   }
 }

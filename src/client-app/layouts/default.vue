@@ -1,62 +1,60 @@
 <template>
-  <div>
-    <Nuxt />
-  </div>
+  <v-app
+    class="theme--dark"
+    >
+        <v-app-bar
+        fixed
+        app
+        class="amber lighten-2"
+      >
+      <div class="ml-16">
+        <Title/>
+      </div>
+      
+      
+        <Avatar
+          v-show="loggedIn"
+        />
+      
+      
+        <LoginButton
+          v-show="!loggedIn"
+        />
+        
+        <RegisterButton
+          v-show="!loggedIn"
+        />
+    </v-app-bar>
+        <!-- The nuxt element is where the whole app takes place -->
+        <v-main>
+         
+          <Nuxt />
+          
+        </v-main>
+        <v-footer
+      app
+    >
+      <span>&copy; {{ new Date().getFullYear() }}</span>
+    </v-footer>
+  </v-app>
 </template>
 
-<style>
-html {
-  font-family:
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
+<script>
+import Title from '@/components/Title'
+import Avatar from '@/components/Avatar'
+import LoginButton from '@/components/LoginButton'
+import RegisterButton from '@/components/RegisterButton'
+export default {
+  components: {
+    Title,
+    Avatar,
+    LoginButton,
+    RegisterButton
+  },
+  data(){
+    return {
+      loggedIn:false
+    }
+  },
 }
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-}
-
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
-}
-
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
-}
-
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
-}
-
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
-}
-</style>
+</script>
