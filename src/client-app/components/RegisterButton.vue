@@ -5,7 +5,7 @@
     
   >
     <v-btn 
-    href="/Register"
+    href="/client/Register"
     class="black white--text"
     >
       Register

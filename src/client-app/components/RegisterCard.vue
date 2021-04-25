@@ -13,6 +13,7 @@
                     <v-text-field
                         class="pa-16 white--text"
                         label="username"
+                        v-model="registerInfo.username"
                     ></v-text-field> 
                 </v-row>
                 <v-row
@@ -22,6 +23,7 @@
                     <v-text-field
                         class="pa-16 white--text"
                         label="Email"
+                        v-model="registerInfo.email"
                     ></v-text-field> 
                 </v-row>
                 <v-row
@@ -30,6 +32,7 @@
                 >
                     <v-text-field
                         class="pa-16 white--text"
+                        v-model="registerInfo.password"
                         :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                         :type="show ? 'text' : 'password'"
                         name="input-10-2"
@@ -44,6 +47,7 @@
                 class="mx-0">
                     <v-text-field
                         class="pa-16 white--text"
+                        v-model="registerInfo.passwordRepeat"
                         :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                         :type="show ? 'text' : 'password'"
                         name="input-10-2"
@@ -61,6 +65,7 @@
                     <v-btn
                     class="ma-8"
                     color="black white--text"
+                    @click="registerForm(registerInfo)"
                     >
                     Sign me Up!
                     </v-btn>
@@ -85,8 +90,20 @@ export default {
   data(){
         return{
             show:false,
+            registerInfo:{
+                username:'aaaaaaa',
+                email:'test@mail.com',
+                password:'12345678',
+                passwordRepeat:'12345678'
+            }
         }
     },
+    props:{
+        registerForm:{
+            type:Function,
+            required:true
+        }
+    }
 }
 </script>
 

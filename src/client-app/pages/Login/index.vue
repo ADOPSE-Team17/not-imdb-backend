@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <LoginCard/>
+    <LoginCard :loginForm="loginUser"/>
   </div>
 </template>
 
@@ -11,6 +11,11 @@ import LoginCard from '@/components/LoginCard.vue'
 export default{
     components: {
         LoginCard    
+    },
+    methods:{
+      loginUser(info){
+        this.$store.dispatch('auth/loginUser',info)
+      }
     }
 }
 
