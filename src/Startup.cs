@@ -1,12 +1,14 @@
 using System.IO;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
@@ -27,6 +29,7 @@ namespace src
     public void ConfigureServices(IServiceCollection services)
     {
 
+      services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
       services.AddControllers();
       services.AddDbContext<ApplicationDbContext>();
       services.AddSwaggerGen(c =>
@@ -34,31 +37,33 @@ namespace src
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "src", Version = "v1" });
       });
       services.AddCors();
-      services.AddSingleton<AuthenticationService>(new AuthenticationService(Configuration["Jwt:Key"], Configuration["Jwt:Issuer"]));
-
+      services.AddSingleton<AuthenticationService>(new AuthenticationService(Configuration["Jwt:Key"], Configuration["Jwt:Issuer"], 2));
+      services.AddSingleton<IAuthorizationPolicyProvider, MyLocalAuthenticationPolicyProvider>();
       services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(options =>
         {
           options.TokenValidationParameters = new TokenValidationParameters
           {
-            ValidateIssuer = true,
+            ValidateIssuer = false,
+            ValidateAudience = false,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = Configuration["Jwt:Issuer"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
           };
         });
+      services.AddScoped<IAuthorizationHandler, UserRoleHandler>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
 
+      app.UseMiddleware<JwtMiddleware>();
       // // Redirect calls to the root path at the client application 
       app.UseRewriter(new RewriteOptions()
         .AddRedirect("^\\/?$", "/client")
       );
-
+     
       app.Map(new PathString("/client"), client =>
       {
         var clientPath = Path.Combine(Directory.GetCurrentDirectory(), "./../dist");
