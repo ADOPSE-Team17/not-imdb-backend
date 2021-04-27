@@ -18,7 +18,7 @@ namespace src
     public virtual Person person { get; set; }
 
     [Required]
-    public string username {get; set;}
+    public string username { get; set; }
 
     public bool isAdmin { get; set; }
 
@@ -29,21 +29,21 @@ namespace src
     public bool isDeleted { get; set; }
   }
 
-  public class UserDto {
-    public int Id {get; set;}
-    public Person person {get; set;}
-    public string username {get; set;}
-    public bool isAdmin {get; set;}
-    public bool isActive {get; set;}
-    public bool isDisabled {get; set;}
+  public class UserDto
+  {
+    public int Id { get; set; }
+    public Person person { get; set; }
+    public string username { get; set; }
+    public bool isAdmin { get; set; }
+    public bool isActive { get; set; }
+    public bool isDisabled { get; set; }
 
-    public bool isDeleted {get; set;}
+    public bool isDeleted { get; set; }
 
-    public UserDto() {
+    public UserDto() { }
 
-    }
-
-    public UserDto(User user) {
+    public UserDto(User user)
+    {
       Id = user.Id;
       username = user.username;
       person = user.person;
