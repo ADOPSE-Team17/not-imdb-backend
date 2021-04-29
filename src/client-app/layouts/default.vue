@@ -1,6 +1,6 @@
 <template>
   <v-app
-    class="theme--dark"
+    dark
     >
         <v-app-bar
         fixed
