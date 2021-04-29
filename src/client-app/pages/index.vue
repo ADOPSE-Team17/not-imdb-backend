@@ -4,15 +4,12 @@
       <SearchMovies class="mx-auto"/>
     </v-row>
     <v-row class="pa-8">
-      <h2>|Headline 1</h2>
       <CarouselList/>
     </v-row>
     <v-row class="pa-8">
-      <h2>|Headline 1</h2>
       <CarouselList/>
     </v-row>
     <v-row class="pa-8">
-      <h2>|Headline 1</h2>
       <CarouselList/>
     </v-row>
  </div>
@@ -26,7 +23,12 @@ export default {
   components: {
     CarouselList,
     SearchMovies
-  }
+  },
+  created(){
+        fetchMovies:{
+            this.$store.dispatch('movies/fetchMovies')
+        }
+    }
 }
 </script>
 

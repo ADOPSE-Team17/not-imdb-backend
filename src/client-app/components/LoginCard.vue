@@ -44,14 +44,6 @@
                     Log In
                     </v-btn>
                 </v-col>
-                <v-col>
-                    <v-btn
-                    class="ma-8"
-                    color="black white--text"
-                    >
-                    Use SSO
-                    </v-btn>
-                </v-col>
                 </v-row>
                 <v-row
                 align="center"

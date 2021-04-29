@@ -26,7 +26,7 @@ export default{
                 "passwordRepeat": info.passwordRepeat
             }
             try {
-                res = await axios.post('http://localhost:5000/Auth/Register',data)
+                const res = await axios.post('http://localhost:5000/Auth/Register',data)
                 console.log(res)
                 commit('REGISTER_USER',info )
             } catch (error) {
@@ -41,9 +41,8 @@ export default{
             }
 
             try {
-                // res = await axios.post('http://localhost:5000/Auth/Login',data)
-                // console.log(res)
-                console.log(info)
+                const res = await axios.post('http://localhost:5000/Auth/Login',data)
+                console.log(res.data)
                 commit('LOGIN_USER',info)
             } catch (error) {
                 console.log(error)

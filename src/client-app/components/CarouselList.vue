@@ -1,9 +1,9 @@
 <template>
     <v-carousel 
         hide-delimiters
-        cycle
         width="350"
     >
+    <h2>|Headline 1</h2>
         <v-carousel-item
         v-for="(movie,i) in movies"
         :key="i"
@@ -63,9 +63,7 @@ export default {
             ],
         }
     },
-    methods: {
-        
-    }
+    
 }
 </script>
 

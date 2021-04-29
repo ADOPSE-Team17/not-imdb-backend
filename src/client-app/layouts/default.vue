@@ -1,6 +1,10 @@
 <template>
   <v-app
+<<<<<<< Updated upstream
     class="theme--dark"
+=======
+    class="grey darken-4"
+>>>>>>> Stashed changes
     >
         <v-app-bar
         fixed
@@ -43,8 +47,7 @@ export default {
   components: {
     Title,
     Avatar,
-    LoginButton,
-    RegisterButton
+    LinkButton,
   },
   data(){
     return {
