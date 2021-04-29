@@ -7,16 +7,22 @@
 <script>
 import LoginCard from '@/components/LoginCard.vue'
 
-
 export default{
     components: {
         LoginCard    
     },
     methods:{
       loginUser(info){
-        this.$store.dispatch('auth/loginUser',info)
+        try {
+          this.$store.dispatch('auth/loginUser',info)
+        } catch (error) {
+          console.log(error)
+        }
+        
       }
-    }
+    },
+  
+    
 }
 
 </script>

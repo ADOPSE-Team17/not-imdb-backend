@@ -1,5 +1,6 @@
 <template>
  <div>
+   <h2></h2>
    <v-row class="pa-8">
       <SearchMovies class="mx-auto"/>
     </v-row>
@@ -24,11 +25,6 @@ export default {
     CarouselList,
     SearchMovies
   },
-  created(){
-        fetchMovies:{
-            this.$store.dispatch('movies/fetchMovies')
-        }
-    }
 }
 </script>
 

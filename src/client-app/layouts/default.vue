@@ -1,10 +1,6 @@
 <template>
   <v-app
-<<<<<<< Updated upstream
-    class="theme--dark"
-=======
     class="grey darken-4"
->>>>>>> Stashed changes
     >
         <v-app-bar
         fixed
@@ -18,10 +14,11 @@
       </div>
       <div class="ml-auto d-flex">
         <Avatar
-          v-show="loggedIn"
+          v-show="this.$store.getters['auth/loggedInUser']"
+          :accountName="this.$store.getters['auth/accountName']"
         />
-        <LinkButton v-show="!loggedIn" target="/Login" text="Login" ></LinkButton>
-        <LinkButton v-show="!loggedIn" target="/Register" text="Register" ></LinkButton>
+        <LinkButton v-show="!this.$store.getters['auth/loggedInUser']" target="/Login" text="Login" ></LinkButton>
+        <LinkButton v-show="!this.$store.getters['auth/loggedInUser']" target="/Register" text="Register" ></LinkButton>
       </div>
     </v-app-bar>
         <!-- The nuxt element is where the whole app takes place -->
@@ -42,6 +39,7 @@
 import Title from '@/components/Title'
 import Avatar from '@/components/Avatar'
 import LinkButton from '@/components/LinkButton'
+import {mapGetters} from 'vuex'
 
 export default {
   components: {
@@ -49,10 +47,6 @@ export default {
     Avatar,
     LinkButton,
   },
-  data(){
-    return {
-      loggedIn:false
-    }
-  },
+   
 }
 </script>

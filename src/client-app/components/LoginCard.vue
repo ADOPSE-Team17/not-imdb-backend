@@ -36,13 +36,17 @@
                 class="mt-8"
                 >
                 <v-col>
-                    <v-btn
-                    class="ma-8"
-                    color="black white--text"
-                    @click="loginForm(loginInfo)"
+                    <nuxt-link
+                        to="/"
                     >
-                    Log In
-                    </v-btn>
+                        <v-btn
+                        class="ma-8"
+                        color="black white--text"
+                        @click="loginForm(loginInfo)"
+                        >
+                        Log In
+                        </v-btn>
+                    </nuxt-link>
                 </v-col>
                 </v-row>
                 <v-row
@@ -63,7 +67,7 @@ export default {
         return{
             show : false,
             loginInfo:{
-                identifier:'account1',
+                identifier:'aaaaaaa',
                 password:'12345678'
             }
         }

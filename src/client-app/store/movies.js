@@ -4,17 +4,20 @@ export default{
     namespaced:true,
     state(){
         return{
-
+            fetchedMovies:[]
         }
     },
     mutations:{
-
+        FETCH_MOVIES(state,movies){
+            state.fetchedMovies = movies
+        }
     },
     actions:{
-        async fetchMovies(){
+        async fetchMovies({commit}){
             try {
                 const res = await axios.get('http://localhost:5000/Movies')
-                console.log(res)
+                // console.log(res)
+                commit('FETCH_MOVIES',res.data)
             } catch (error) {
                 console.log(error)   
             }
@@ -22,6 +25,8 @@ export default{
         }
     },
     getters:{
-
+        getFetchedMovies:(state) => {
+            return state.fetchedMovies
+        }
     }
 }

@@ -6,15 +6,26 @@ export default{
     state(){
         return{
             registerInfo: {},
-            loginInfo:{}
+            loginInfo:{
+                identifier:'',
+                password:''
+            },
+            loggedIn:false,
+            isAdmin:false
         }
     },
     mutations: {
         REGISTER_USER(state, info) {
             state.registerInfo = info
+            state.loggedIn = true
         },
-        LOGIN_USER(state,info){
+        LOGIN_USER(state,info,admin){
             state.loginInfo = info 
+            state.loggedIn = true
+            // console.log(state.loggedIn)
+            if (admin){
+                state.isAdmin = true
+            }
         }
     },
     actions: {
@@ -27,7 +38,7 @@ export default{
             }
             try {
                 const res = await axios.post('http://localhost:5000/Auth/Register',data)
-                console.log(res)
+                // console.log(res)
                 commit('REGISTER_USER',info )
             } catch (error) {
                 console.log(error)
@@ -42,13 +53,20 @@ export default{
 
             try {
                 const res = await axios.post('http://localhost:5000/Auth/Login',data)
-                console.log(res.data)
-                commit('LOGIN_USER',info)
+                // console.log(res.data)
+                commit('LOGIN_USER',info,res.data.isAdmin)
             } catch (error) {
                 console.log(error)
             }
         }
     },
 
-    getters: {}
+    getters: {
+       loggedInUser:(state) => {
+           return state.loggedIn
+       },
+       accountName:(state) => {
+           return state.loginInfo.identifier
+       }
+    }
 }
