@@ -52,6 +52,7 @@ namespace src.Controllers
             .ToArrayAsync();
         return nearEvents;
     }
+    
     [HttpGet("{id}")]
     public async Task<ActionResult<Event>> Getevent(int id)
     {

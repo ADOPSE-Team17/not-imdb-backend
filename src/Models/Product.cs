@@ -17,5 +17,6 @@ namespace src
     public string image { get; set; }
 
     public string url { get; set; }
+    public int capacity { get; set;}
   }
 }
