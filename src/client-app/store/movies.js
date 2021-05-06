@@ -22,6 +22,15 @@ export default{
                 console.log(error)   
             }
             
+        },
+        async fetchWatchlist({commit}){
+            try {
+                user = $store.getters(['auth/account'])
+                    console.log(user.identifier)
+                
+            } catch (error) {
+                console.log(error)
+            }
         }
     },
     getters:{

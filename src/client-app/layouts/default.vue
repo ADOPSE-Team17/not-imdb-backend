@@ -47,6 +47,7 @@ export default {
     Avatar,
     LinkButton,
   },
+  
    
 }
 </script>

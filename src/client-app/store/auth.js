@@ -65,6 +65,9 @@ export default{
        loggedInUser:(state) => {
            return state.loggedIn
        },
+       account:(state) => {
+           return state.loginInfo
+       },
        accountName:(state) => {
            return state.loginInfo.identifier
        }
