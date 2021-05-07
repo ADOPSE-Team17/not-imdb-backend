@@ -8,6 +8,13 @@
         <MovieDetails />
       </v-tab-item>
 
+      <v-tab href="#movie-ratings">
+        Ratings
+      </v-tab>
+      <v-tab-item value="movie-ratings">
+        <MovieRatings />
+      </v-tab-item>
+
       <v-tab href="#movie-cast">
         Cast
       </v-tab>
@@ -41,7 +48,10 @@
 </template>
 
 <script>
-export default {};
+import MovieRatings from "../../components/MovieViewComponents/MovieRatings.vue";
+export default {
+  components: { MovieRatings }
+};
 </script>
 
 <style>
