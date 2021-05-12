@@ -15,8 +15,7 @@ namespace src.Controllers
 
     public CommentsController(
       ILogger<CommentsController> logger,
-      ApplicationDbContext context,
-      string type
+      ApplicationDbContext context
     )
     {
       _logger = logger;
@@ -28,8 +27,8 @@ namespace src.Controllers
     {
 
       var comments = await this._context.Comments
+        .Include("answers")
         .ToArrayAsync();
-
       return comments;
     }
 
