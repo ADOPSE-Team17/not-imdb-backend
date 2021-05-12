@@ -285,6 +285,9 @@ namespace src.Migrations
                     b.Property<string>("producer")
                         .HasColumnType("TEXT");
 
+                    b.Property<double>("rating")
+                        .HasColumnType("REAL");
+
                     b.Property<string>("trailerUrl")
                         .HasColumnType("TEXT");
 
@@ -407,6 +410,9 @@ namespace src.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("capacity")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("description")
