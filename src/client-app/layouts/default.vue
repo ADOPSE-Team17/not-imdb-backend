@@ -42,9 +42,7 @@ import LinkButton from '@/components/LinkButton'
 export default {
   components: {
     Title,
-    Avatar,
-    LoginButton,
-    RegisterButton
+    Avatar
   },
   data(){
     return {
