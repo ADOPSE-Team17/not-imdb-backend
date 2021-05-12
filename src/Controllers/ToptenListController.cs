@@ -34,7 +34,7 @@ namespace src.Controllers
 
     
     [HttpGet("topten")]
-    public new async Task<ActionResult<IEnumerable<Movie>>> getTopten()
+    public async Task<ActionResult<IEnumerable<Movie>>> listTopten()
     {
       var topten = await this._context.Movies
         .Include("ratings")
@@ -46,7 +46,8 @@ namespace src.Controllers
         .Take(10)
         .ToArrayAsync();
       
-      return topten;  
+      return topten;
+        
     }
 
 

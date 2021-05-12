@@ -85,7 +85,7 @@ namespace src.Controllers
       return comment;
     }
 
-    [HttpPost("{answer/{commentId}}")]
+    [HttpPost("{answer}/{commentId}")]
     public async Task<ActionResult<Comment>> CreateAnswerComment(int commentId, Comment answer) 
     {
       Comment comment = await this._context.Comments
