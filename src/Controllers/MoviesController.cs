@@ -32,6 +32,7 @@ namespace src.Controllers
         .Include("events")
         .Include("products")
         .Include("parentMovie")
+        .Include("ratings")
         .ToArrayAsync();
 
       return movies;
@@ -45,6 +46,7 @@ namespace src.Controllers
         .Include("events")
         .Include("products")
         .Include("parentMovie")
+        .Include("ratings")
         .Where(m => m.Id == id)
         .FirstOrDefaultAsync();
 
@@ -70,6 +72,7 @@ namespace src.Controllers
         .Include("events")
         .Include("products")
         .Include("parentMovie")
+        .Include("ratings")
         .Where(m => m.Id == id)
         .FirstOrDefaultAsync();
 
