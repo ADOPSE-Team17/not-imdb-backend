@@ -56,6 +56,27 @@ namespace src.Controllers
       return movie;
     }
 
+    [HttpGet("{id}/avgRating")]
+    public async Task<ActionResult<Movie>> AvgRatingOfMovie(int id)
+    {
+      double avgRating = await this._context.Movies
+        .Include("ratings")
+        .Where(m => m.Id == id)
+        .Select(c => c.ratings.Average(m => m.ratingValue))
+        .FirstOrDefaultAsync();
+      
+      var movie = await this._context.Movies 
+        .Include("comments")
+        .Include("events")
+        .Include("products")
+        .Include("parentMovie")
+        .Where(m => m.Id == id)
+        .FirstOrDefaultAsync();
+
+      movie.rating = avgRating;
+      return movie;
+    }
+
     [HttpPost]
     public async Task<ActionResult<Movie>> CreateMovie(Movie movie)
     {
