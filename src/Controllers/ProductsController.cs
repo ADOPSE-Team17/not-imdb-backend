@@ -76,6 +76,13 @@ namespace src.Controllers
         });
       }
 
+      if(product.capacity == 0)
+      {
+        return NotFound( new {
+          message = "product not available"
+        });
+      }
+
       product.capacity = product.capacity - 1;
       await _context.SaveChangesAsync();
       Console.WriteLine("Capacity of product with id = ", product.Id, "is modified");
