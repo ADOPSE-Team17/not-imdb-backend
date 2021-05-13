@@ -2,7 +2,7 @@
  <div>
    <h2></h2>
    <v-row class="pa-8">
-      <SearchMovies class="mx-auto"/>
+      <SearchMovies class="mx-auto" @click="fetchMovies"/>
     </v-row>
     <v-row class="pa-8">
       <CarouselList/>
@@ -25,6 +25,11 @@ export default {
     CarouselList,
     SearchMovies
   },
+  methods:{
+    fetchMovies(){
+      this.$store.dispatch('movies/fetchMovies')
+    }
+  }
 }
 </script>
 

@@ -77,7 +77,7 @@ export default {
     },
     methods: {
         addToWatchlist(){
-            alert('add me to watchlist')
+            console.log('add me to watchlist')
         },
         addRating(){
             alert('Let me rate this movie')

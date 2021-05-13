@@ -39,7 +39,6 @@
 import Title from '@/components/Title'
 import Avatar from '@/components/Avatar'
 import LinkButton from '@/components/LinkButton'
-import {mapGetters} from 'vuex'
 
 export default {
   components: {

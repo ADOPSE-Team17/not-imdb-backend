@@ -4,12 +4,16 @@ export default{
     namespaced:true,
     state(){
         return{
-            fetchedMovies:[]
+            fetchedMovies:[],
+            watchlist:{}
         }
     },
     mutations:{
         FETCH_MOVIES(state,movies){
             state.fetchedMovies = movies
+        },
+        FETCH_WATCHLIST(state,Watchlist){
+            state.watchlist = Watchlist
         }
     },
     actions:{
@@ -23,15 +27,8 @@ export default{
             }
             
         },
-        async fetchWatchlist({commit}){
-            try {
-                user = $store.getters(['auth/account'])
-                    console.log(user.identifier)
-                
-            } catch (error) {
-                console.log(error)
-            }
-        }
+         
+        
     },
     getters:{
         getFetchedMovies:(state) => {
