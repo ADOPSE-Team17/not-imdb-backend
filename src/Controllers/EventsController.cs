@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using System;
 
 namespace src.Controllers
 {
@@ -51,6 +52,35 @@ namespace src.Controllers
             .Where(m => m.location == location)
             .ToArrayAsync();
         return nearEvents;
+    }
+
+    [HttpGet("joinEvent/{id}")]
+    public async Task<ActionResult<Event>> JoinEvent(int id)
+    {
+        var join = await this._context.Events
+            .Include("movies")
+            .Where(e => e.Id == id)
+            .FirstOrDefaultAsync();
+        
+        if(join is null)
+        {
+            return NotFound( new {
+                message = "event not found"
+            });
+        }
+
+        if(join.maximumAttendeeCapacity == 0)
+        {
+            return NotFound( new {
+                message = "event is full"
+            });
+        }
+
+        join.maximumAttendeeCapacity = join.maximumAttendeeCapacity - 1;
+        await _context.SaveChangesAsync();
+        Console.WriteLine("The maximumAttendeeCapacity of the event with id = ", join.Id, "is modified");
+
+        return join;
     }
     
     [HttpGet("{id}")]
