@@ -55,7 +55,7 @@ namespace src.Controllers
     {
       
       MovieList list = await this._context.MovieLists
-        .Where(m => m.Id == id && m.additionalType.Equals(MovieList.WATCHLIST))
+        .Where(m => m.Id == id && m.additionalType.Equals(MovieList.FAVORITES))
         .Include("items")
         .FirstOrDefaultAsync();
       
@@ -66,6 +66,7 @@ namespace src.Controllers
         .Include("ratings")
         .Include("products")
         .FirstOrDefaultAsync();
+
 
       if (list is null) 
       {
@@ -80,12 +81,14 @@ namespace src.Controllers
         }
         this._context.Set<Movie>().Attach(movie);
         if (list.items.Any(m => m.Id == movieId)) 
+
         {
           return Conflict(new {
             message = "movie already exists"
           });
         }
         list.items.Add(movie);
+
       } 
       catch 
       {
@@ -99,13 +102,13 @@ namespace src.Controllers
     [HttpDelete("{listId}/remove/{movieId}")]
     public async Task<ActionResult<MovieList>> RemoveListItem(int listId, int movieId) {
       MovieList list = await this._context.MovieLists
-        .Where(m => m.Id == listId && m.additionalType.Equals(MovieList.WATCHLIST))
+        .Where(m => m.Id == listId && m.additionalType.Equals(MovieList.FAVORITES))
         .Include("items")
         .FirstOrDefaultAsync();
       
       if (list is null) {
         return NotFound(new {
-          message = "watch  list was not found"
+          message = "favorites  list was not found"
         });
       } else if (!(list is null) && !(list.items.Any(i => i.Id == movieId))) {
         return BadRequest(new {
@@ -114,6 +117,7 @@ namespace src.Controllers
       }
 
       list.items = list.items.Where( i => i.Id != movieId).ToList();
+
       await this._context.SaveChangesAsync();
       return list;
     }

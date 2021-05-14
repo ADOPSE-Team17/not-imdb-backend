@@ -1,4 +1,6 @@
 using System.IO;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -7,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace src
@@ -30,11 +33,26 @@ namespace src
       {
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "src", Version = "v1" });
       });
+      services.AddCors();
+      services.AddSingleton<AuthenticationService>(new AuthenticationService(Configuration["Jwt:Key"], Configuration["Jwt:Issuer"]));
+
+      services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options =>
+        {
+          options.TokenValidationParameters = new TokenValidationParameters
+          {
+            ValidateIssuer = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = Configuration["Jwt:Issuer"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+          };
+        });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-    { 
+    {
 
       // // Redirect calls to the root path at the client application 
       app.UseRewriter(new RewriteOptions()
@@ -42,18 +60,18 @@ namespace src
       );
 
       app.Map(new PathString("/client"), client =>
-      {       
+      {
         var clientPath = Path.Combine(Directory.GetCurrentDirectory(), "./../dist");
         StaticFileOptions clientAppDist = new StaticFileOptions()
         {
-            FileProvider = new PhysicalFileProvider(clientPath)
-        };            
+          FileProvider = new PhysicalFileProvider(clientPath)
+        };
         client.UseSpaStaticFiles(clientAppDist);
         client.UseSpa(spa =>
         {
-            spa.Options.DefaultPageStaticFileOptions = clientAppDist;
-        });                                       
-    });
+          spa.Options.DefaultPageStaticFileOptions = clientAppDist;
+        });
+      });
 
       if (env.IsDevelopment())
       {
@@ -62,7 +80,14 @@ namespace src
         app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "src v1"));
       }
 
+      app.UseCors(options =>
+        options.AllowAnyMethod()
+          .AllowAnyHeader()
+          .SetIsOriginAllowed(origin => true) // allow any origin);
+      );
+
       app.UseRouting();
+      app.UseAuthentication();
       app.UseAuthorization();
       app.UseEndpoints(endpoints =>
       {

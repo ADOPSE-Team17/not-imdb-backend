@@ -14,14 +14,17 @@ namespace src
   {
     private readonly ILogger<AuthController> _logger;
     private readonly ApplicationDbContext _context;
+    private readonly AuthenticationService _authenticationService;
 
     public AuthController(
       ILogger<AuthController> logger,
-      ApplicationDbContext context
+      ApplicationDbContext context,
+      AuthenticationService authenticationService
     )
     {
       _logger = logger;
       _context = context;
+      _authenticationService = authenticationService;
     }
 
     [Route("Register")]
@@ -30,9 +33,9 @@ namespace src
     {
       if (dto.password != dto.passwordRepeat)
       {
-        return NotFound(new
+        return BadRequest(new
         {
-          message = "password missmatch"
+          message = "password mismatch"
         });
       }
 
@@ -65,14 +68,14 @@ namespace src
         catch (Exception e)
         {
           await transaction.RollbackAsync();
-          throw e;
+          throw new Exception(e.Message);
         }
       }
     }
 
     [Route("Login")]
     [HttpPost]
-    public async Task<ActionResult<UserDto>> Login(LoginDto dto)
+    public async Task<ActionResult<LoginResponseDto>> Login(LoginDto dto)
     {
       User user = await this._context.Users
                 .Where(u => dto.identifier == u.username && !u.isDeleted && !u.isDisabled && u.isActive)
@@ -83,7 +86,7 @@ namespace src
 
       if (!(user is null))
       {
-        return new UserDto(user);
+        return new LoginResponseDto(this._authenticationService.GenerateJWT(new UserDto(user)), new UserDto(user));
       }
 
       Account account = await this._context.Accounts
@@ -96,12 +99,12 @@ namespace src
       }
       else
       {
-        User sUSer = await this._context.Users
+        User sUser = await this._context.Users
             .Where(u => u.Id == account.userId && !u.isDeleted && !u.isDisabled && u.isActive)
             .Include("person")
             .FirstOrDefaultAsync();
 
-        return new UserDto(sUSer);
+        return new LoginResponseDto(this._authenticationService.GenerateJWT(new UserDto(sUser)), new UserDto(sUser));
       }
     }
   }
@@ -118,5 +121,18 @@ namespace src
   {
     public string identifier { get; set; }
     public string password { get; set; }
+  }
+
+  public class LoginResponseDto {
+    public string token {get; set;}
+
+    public UserDto user  {get; set;}
+
+    public LoginResponseDto() { }
+
+    public LoginResponseDto(string token, UserDto user) {
+      this.token = token;
+      this.user = user;
+    }
   }
 }

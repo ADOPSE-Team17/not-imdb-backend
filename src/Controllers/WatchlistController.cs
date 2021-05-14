@@ -86,6 +86,7 @@ namespace src.Controllers
           });
         }
         list.items.Add(movie);
+
       } 
       catch 
       {
@@ -108,12 +109,14 @@ namespace src.Controllers
           message = "watch  list was not found"
         });
       } else if (!(list is null) && !(list.items.Any(i => i.Id == movieId))) {
+
         return BadRequest(new {
           message = "Movie is not in the list"
         });
       }
 
       list.items = list.items.Where( i => i.Id != movieId).ToList();
+
       await this._context.SaveChangesAsync();
       return list;
     }

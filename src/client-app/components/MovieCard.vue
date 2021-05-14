@@ -3,21 +3,22 @@
     class="mx-auto my-12"
     max-width="374"
   >
-  
-  <v-img
-      height="250"
-      src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-      @click="openMovie"
-    ></v-img>
-
-    <v-card-title>Title</v-card-title>
+    <small>id : {{id}}</small>
+    <nuxt-link :to="'Movie/' + id">
+        <v-img
+            height="250"
+            src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+        
+        ></v-img>
+    </nuxt-link>
+    <v-card-title>{{Movietitle}}</v-card-title>
 
     <v-card-text
-    v-f
+    
     >
         <v-row align="center">
-            <v-col><div class="my-4 subtitle-1">{{year}}</div></v-col>
-            <v-col><div>{{runtime}}</div></v-col>
+            <v-col><div class="my-4 subtitle-1">{{year.substr(0,9)}}</div></v-col>
+            <v-col><div>{{runtime}}'</div></v-col>
             <v-col>
                 <v-rating
                     :value="4.5"
@@ -64,19 +65,27 @@
 
 <script>
 export default {
+    name:'MovieCard',
     props: {
         year:{
             type:String,
             required:true
         },
         runtime:{
+            type:Number,
+            required:true
+        },
+        Movietitle:{
             type:String,
             required:true
         },
+        id:{
+            type:Number
+        }
     },
     methods: {
         addToWatchlist(){
-            alert('add me to watchlist')
+            console.log('add me to watchlist')
         },
         addRating(){
             alert('Let me rate this movie')
