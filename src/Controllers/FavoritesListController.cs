@@ -50,15 +50,23 @@ namespace src.Controllers
         return await base.DeleteMovieList(id);
     }
 
-    [HttpPost("{id}")]
-    public async Task<ActionResult<MovieList>> AddMovieListItem(int id, MovieListItem item)
+    [HttpPost("{id}/addItem/{movieId}")]
+    public async Task<ActionResult<MovieList>> AddMovieListItem(int id, int movieId)
     {
       
       MovieList list = await this._context.MovieLists
-        .Where(m => m.Id == id && m.additionalType.Equals(MovieList.FAVORITES))
+        .Where(m => m.Id == id && m.additionalType.Equals(MovieList.WATCHLIST))
         .Include("items")
         .FirstOrDefaultAsync();
-        
+      
+      Movie movie = await this._context.Movies
+        .Where(m => m.Id == movieId)
+        .Include("comments")
+        .Include("events")
+        .Include("ratings")
+        .Include("products")
+        .FirstOrDefaultAsync();
+
       if (list is null) 
       {
         return NotFound();
@@ -68,16 +76,16 @@ namespace src.Controllers
       {
         if (list.items is null) 
         {
-          list.items = new List<MovieListItem>(); 
+          list.items = new List<Movie>(); 
         }
-        this._context.Set<MovieListItem>().Attach(item);
-        if (list.items.Any(m => m.movieId == item.movieId)) 
+        this._context.Set<Movie>().Attach(movie);
+        if (list.items.Any(m => m.Id == movieId)) 
         {
           return Conflict(new {
             message = "movie already exists"
           });
         }
-        list.items.Add(item);
+        list.items.Add(movie);
       } 
       catch 
       {
@@ -91,21 +99,21 @@ namespace src.Controllers
     [HttpDelete("{listId}/remove/{movieId}")]
     public async Task<ActionResult<MovieList>> RemoveListItem(int listId, int movieId) {
       MovieList list = await this._context.MovieLists
-        .Where(m => m.Id == listId && m.additionalType.Equals(MovieList.FAVORITES))
+        .Where(m => m.Id == listId && m.additionalType.Equals(MovieList.WATCHLIST))
         .Include("items")
         .FirstOrDefaultAsync();
       
       if (list is null) {
         return NotFound(new {
-          message = "favorites  list was not found"
+          message = "watch  list was not found"
         });
-      } else if (!(list is null) && !(list.items.Any(i => i.movieId == movieId))) {
+      } else if (!(list is null) && !(list.items.Any(i => i.Id == movieId))) {
         return BadRequest(new {
           message = "Movie is not in the list"
         });
       }
 
-      list.items = list.items.Where( i => i.movieId != movieId).ToList();
+      list.items = list.items.Where( i => i.Id != movieId).ToList();
       await this._context.SaveChangesAsync();
       return list;
     }
