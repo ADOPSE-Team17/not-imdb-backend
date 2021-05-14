@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using src;
 
 namespace src.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210512104334_avgRatingToMovie")]
+    partial class avgRatingToMovie
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -225,9 +227,6 @@ namespace src.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("MovieListId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("about")
                         .HasColumnType("TEXT");
 
@@ -296,8 +295,6 @@ namespace src.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MovieListId");
-
                     b.HasIndex("parentMovieId");
 
                     b.ToTable("Movies");
@@ -335,6 +332,33 @@ namespace src.Migrations
                     b.HasIndex("ownerId");
 
                     b.ToTable("MovieLists");
+                });
+
+            modelBuilder.Entity("src.MovieListItem", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("MovieListId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("movieId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("order")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("parentListId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("MovieListId");
+
+                    b.HasIndex("movieId");
+
+                    b.ToTable("MovieListItem");
                 });
 
             modelBuilder.Entity("src.Person", b =>
@@ -634,10 +658,6 @@ namespace src.Migrations
 
             modelBuilder.Entity("src.Movie", b =>
                 {
-                    b.HasOne("src.MovieList", null)
-                        .WithMany("items")
-                        .HasForeignKey("MovieListId");
-
                     b.HasOne("src.Movie", "parentMovie")
                         .WithMany()
                         .HasForeignKey("parentMovieId");
@@ -654,6 +674,21 @@ namespace src.Migrations
                         .IsRequired();
 
                     b.Navigation("owner");
+                });
+
+            modelBuilder.Entity("src.MovieListItem", b =>
+                {
+                    b.HasOne("src.MovieList", null)
+                        .WithMany("items")
+                        .HasForeignKey("MovieListId");
+
+                    b.HasOne("src.Movie", "item")
+                        .WithMany()
+                        .HasForeignKey("movieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("item");
                 });
 
             modelBuilder.Entity("src.Rating", b =>

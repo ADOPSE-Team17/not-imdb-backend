@@ -32,6 +32,7 @@ namespace src.Controllers
         .Include("events")
         .Include("products")
         .Include("parentMovie")
+        .Include("ratings")
         .ToArrayAsync();
 
       return movies;
@@ -45,6 +46,7 @@ namespace src.Controllers
         .Include("events")
         .Include("products")
         .Include("parentMovie")
+        .Include("ratings")
         .Where(m => m.Id == id)
         .FirstOrDefaultAsync();
 
@@ -53,6 +55,29 @@ namespace src.Controllers
         return NotFound();
       }
 
+      return movie;
+    }
+
+    [HttpGet("{id}/avgRating")]
+    public async Task<ActionResult<Movie>> AvgRatingOfMovie(int id)
+    {
+      double avgRating = await this._context.Movies
+        .Include("ratings")
+        .Where(m => m.Id == id)
+        .Select(c => c.ratings.Average(m => m.ratingValue))
+        .FirstOrDefaultAsync();
+      
+      var movie = await this._context.Movies 
+        .Include("comments")
+        .Include("events")
+        .Include("products")
+        .Include("parentMovie")
+        .Include("ratings")
+        .Where(m => m.Id == id)
+        .FirstOrDefaultAsync();
+
+      movie.rating = avgRating;
+      await this._context.SaveChangesAsync();
       return movie;
     }
 

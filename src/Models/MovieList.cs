@@ -18,7 +18,7 @@ namespace src
 
     public virtual User owner { get; set; }
 
-    public virtual List<MovieListItem> items { get; set; }
+    public virtual List<Movie> items { get; set; }
 
     public string itemListOrder { get; set; }
 

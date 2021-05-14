@@ -57,6 +57,7 @@ namespace src
     public string inLanguage { get; set; }
 
     public bool isFamilyFriendly { get; set; }
+    public double rating { get; set; }
 
     [Column(TypeName = "Date")]
     public DateTime dateCreated { get; set; }
