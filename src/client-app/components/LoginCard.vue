@@ -67,8 +67,8 @@ export default {
         return{
             show : false,
             loginInfo:{
-                identifier:'aaaaaaa',
-                password:'12345678'
+                identifier:'',
+                password:''
             }
         }
     },

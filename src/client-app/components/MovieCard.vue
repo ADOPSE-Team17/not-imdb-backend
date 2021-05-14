@@ -10,14 +10,14 @@
       @click="openMovie"
     ></v-img>
 
-    <v-card-title>Title</v-card-title>
+    <v-card-title>{{Movietitle}}</v-card-title>
 
     <v-card-text
     
     >
         <v-row align="center">
-            <v-col><div class="my-4 subtitle-1">{{year}}</div></v-col>
-            <v-col><div>{{runtime}}</div></v-col>
+            <v-col><div class="my-4 subtitle-1">{{year.substr(0,9)}}</div></v-col>
+            <v-col><div>{{runtime}}'</div></v-col>
             <v-col>
                 <v-rating
                     :value="4.5"
@@ -74,6 +74,10 @@ export default {
             type:String,
             required:true
         },
+        Movietitle:{
+            type:String,
+            required:true
+        }
     },
     methods: {
         addToWatchlist(){
