@@ -87,7 +87,8 @@
         watchlist:{
           type:Array
         }
-      }
+      },
+      
      
   }
 </script>

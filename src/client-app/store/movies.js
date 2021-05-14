@@ -5,7 +5,8 @@ export default{
     state(){
         return{
             fetchedMovies:[],
-            fetchedMovieById:{}
+            fetchedMovieById:{},
+            watchlist:[]
         }
     },
     mutations:{
@@ -40,6 +41,15 @@ export default{
             } catch (error) {
                 console.log(error)
             }
+        },
+        async fetchWatchlist({commit}){
+            try {
+                const res = await axios.get('http://localhost:5000/Watchlist/1')
+                console.log('watchlist with id:1\n',res.data)
+                commit('FETCH_WATCHLIST',res.data)
+            } catch (error) {
+                console.log(error)
+            }
         }
          
         
@@ -50,6 +60,9 @@ export default{
         },
         getFetchedMovieById:(state) => {
             return state.fetchedMovieById
+        },
+        getWatchlist:(state) => {
+            return state.watchlist
         }
     }
 }

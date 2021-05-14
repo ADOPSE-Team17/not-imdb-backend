@@ -12,7 +12,7 @@ export default {
         ProfileEdit
     },
     created(){
-        console.log(this.$store.getters['auth/account'])
+      this.$store.dispatch('movies/fetchWatchlist')
     }
 }
 </script>
