@@ -45,8 +45,7 @@ export default {
     Title,
     Avatar,
     LinkButton,
-  },
-  
-   
+    Avatar
+  }
 }
 </script>
