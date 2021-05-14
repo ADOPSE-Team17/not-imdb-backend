@@ -3,13 +3,14 @@
     class="mx-auto my-12"
     max-width="374"
   >
-  
-  <v-img
-      height="250"
-      src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-      @click="openMovie"
-    ></v-img>
-
+    <small>id : {{id}}</small>
+    <nuxt-link :to="'Movie/' + id">
+        <v-img
+            height="250"
+            src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+        
+        ></v-img>
+    </nuxt-link>
     <v-card-title>{{Movietitle}}</v-card-title>
 
     <v-card-text
@@ -71,12 +72,15 @@ export default {
             required:true
         },
         runtime:{
-            type:String,
+            type:Number,
             required:true
         },
         Movietitle:{
             type:String,
             required:true
+        },
+        id:{
+            type:Number
         }
     },
     methods: {

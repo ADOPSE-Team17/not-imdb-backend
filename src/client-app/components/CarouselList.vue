@@ -9,6 +9,7 @@
         :key="movie.id"
         >
             <MovieCard v-show="i<19"
+                :id="movie.id"
                 :Movietitle="movie.headline"
                 :year="movie.datePublished"
                 :runtime="movie.duration"
