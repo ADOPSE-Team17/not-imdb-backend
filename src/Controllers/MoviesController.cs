@@ -77,6 +77,7 @@ namespace src.Controllers
         .FirstOrDefaultAsync();
 
       movie.rating = avgRating;
+      await this._context.SaveChangesAsync();
       return movie;
     }
 

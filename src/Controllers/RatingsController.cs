@@ -48,11 +48,53 @@ namespace src.Controllers
       return rating;
     }
 
-    [HttpPost]
-    public async Task<ActionResult<Rating>> CreateRating(Rating rating)
+    [HttpPost("{movieId}")]
+    public async Task<ActionResult<Rating>> CreateRating(int movieId, Rating rating)
     {
-      this._context.Ratings.Add(rating);
-      await _context.SaveChangesAsync();
+      Movie movie = await this._context.Movies
+        .Where(m => m.Id == movieId)
+        .Include("ratings")
+        .FirstOrDefaultAsync();
+
+      if (movie is null) {
+          return NotFound(new {
+              message = "Movie not found!"
+          });
+      }
+      
+      /*try 
+      {*/
+        if(movie.ratings is null) 
+        {
+          movie.ratings = new List<Rating>();
+        }
+      
+        this._context.Set<Rating>().Attach(rating);
+        movie.ratings.Add(rating);
+      /*}
+      catch 
+      {
+        NotFound();
+      } */
+      
+      Movie avgRating = await this._context.Movies
+        .Include("ratings")
+        .Where(m => m.Id == movieId)
+        //.Select(c => c.ratings.Average(m => m.ratingValue))
+        .FirstOrDefaultAsync();
+      double av=0;
+      for(int i=0;i<avgRating.ratings.Count;i++)
+      {
+        av += avgRating.ratings[i].ratingValue;
+      }
+
+      if(avgRating.ratings.Count > 0) 
+      {
+        movie.rating = av / avgRating.ratings.Count;
+
+      }
+
+      await this._context.SaveChangesAsync();
       return rating;
     }
 
