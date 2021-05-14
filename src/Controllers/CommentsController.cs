@@ -7,7 +7,8 @@ using Microsoft.Extensions.Logging;
 
 namespace src.Controllers
 {
-
+[ApiController]
+[Route("[controller]")]
   public class CommentsController : ControllerBase
   {
     protected readonly ILogger<CommentsController> _logger;
@@ -49,10 +50,8 @@ namespace src.Controllers
 
 
     [HttpPost("{movieId}")]
-    public async Task<ActionResult<Comment>> CreateComment(Comment comment, int movieId)
+    public async Task<ActionResult<Comment>> CreateComment(int movieId, Comment comment)
     {
-      this._context.Comments.Add(comment);
-      await _context.SaveChangesAsync();
 
       Movie movie = await this._context.Movies
         .Where(m => m.Id == movieId)
@@ -65,8 +64,8 @@ namespace src.Controllers
           });
       }
       
-      try 
-      {
+      /*try 
+      {*/
         if(movie.comments is null) 
         {
           movie.comments = new List<Comment>();
@@ -74,18 +73,18 @@ namespace src.Controllers
       
         this._context.Set<Comment>().Attach(comment);
         movie.comments.Add(comment);
-      }
+      /*}
       catch 
       {
         NotFound();
-      }
+      } */
 
       await this._context.SaveChangesAsync();
       return comment;
     }
 
-    [HttpPost("{answer}/{commentId}")]
-    public async Task<ActionResult<Comment>> CreateAnswerComment(int commentId, Comment answer) 
+    [HttpPost("answer/{commentId}")]
+    public async Task<ActionResult<Comment>> CreateAnswerComment(Comment answer, int commentId) 
     {
       Comment comment = await this._context.Comments
         .Where(m => m.Id == commentId)
@@ -102,7 +101,7 @@ namespace src.Controllers
         if (comment.answers is null ) 
           {
               comment.answers = new List<Comment>();
-          }
+          } 
           this._context.Set<Comment>().Attach(answer);
           comment.answers.Add(answer);
       }
@@ -170,7 +169,7 @@ namespace src.Controllers
         return movie;
     }
 
-    [HttpDelete("{commentId}/remove/{answerId}")]
+    [HttpDelete("{commentId}/removeAnswer/{answerId}")]
     public async Task<ActionResult<Comment>> RemoveAnswerComment(int commentId, int answerId) 
     {
         Comment comment = await this._context.Comments
