@@ -39,7 +39,7 @@
             </v-list-item-icon>
 
             <v-list-item-content>
-              <v-list-item-title  v-text="item.text">
+              <v-list-item-title  v-text="item.text" @click="fetch(item.text)">
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
@@ -78,6 +78,12 @@
           this.dialog = true
           this.item = itemText
           // console.log(this.item)
+        },
+        fetch(type){
+          if(type == 'Watchlist'){
+            console.log('sfdfsdf')
+            this.$store.dispatch('movies/fetchWatchlist')
+          }
         }
       },
       props:{
@@ -88,7 +94,7 @@
           type:Array
         }
       },
-      
+     
      
   }
 </script>

@@ -43,10 +43,28 @@ export default{
             }
         },
         async fetchWatchlist({commit}){
+            const body={
+                "ownerId" : 1,
+
+            }
             try {
-                const res = await axios.get('http://localhost:5000/Watchlist/1')
-                console.log('watchlist with id:1\n',res.data)
-                commit('FETCH_WATCHLIST',res.data)
+                // const res = await axios.post('http://localhost:5000/Watchlist',body)
+                const res = await axios.get('http://localhost:5000/Watchlist',body)
+                console.log(res.data)
+                
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async addToWatchlist({commit},movie){
+            try {
+                // console.log(movie.id)
+                const body={
+                    "movieId":movie.id
+                }
+                const res = await axios.post('http://localhost:5000/Watchlist/1', body)
+                console.log(res.data)
+                commit('FETCH_WATCHLIST', res.data)
             } catch (error) {
                 console.log(error)
             }

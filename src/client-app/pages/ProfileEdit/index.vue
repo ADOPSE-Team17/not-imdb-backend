@@ -11,9 +11,7 @@ export default {
     components:{
         ProfileEdit
     },
-    created(){
-      this.$store.dispatch('movies/fetchWatchlist')
-    }
+    
 }
 </script>
 
