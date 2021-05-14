@@ -1,16 +1,18 @@
 <template>
     <v-carousel 
         hide-delimiters
-        cycle
         width="350"
     >
+    <h2>|Headline 1</h2>
         <v-carousel-item
-        v-for="(movie,i) in movies"
-        :key="i"
+        v-for="(movie,i) in this.$store.getters['movies/getFetchedMovies']"
+        :key="movie.id"
         >
-            <MovieCard
-                :year="movie.year"
-                :runtime="movie.runtime"
+            <MovieCard v-show="i<19"
+                :id="movie.id"
+                :Movietitle="movie.headline"
+                :year="movie.datePublished"
+                :runtime="movie.duration"
             />
         </v-carousel-item>
     </v-carousel>
@@ -25,47 +27,9 @@ export default {
     components: {
         MovieCard,
     },
-    data() {
-        return{
-            movies:[
-                {
-                    year:'1999',
-                    runtime:'121 min'
-                },
-                {
-                    year:'1998',
-                    runtime:'121 min'
-                },
-                {
-                    year:'1992',
-                    runtime:'156 min'
-                },
-                {
-                    year:'1919',
-                    runtime:'129 min'
-                },
-                {
-                    year:'1986',
-                    runtime:'97 min'
-                },
-                {
-                    year:'2000',
-                    runtime:'179 min'
-                },
-                {
-                    year:'2010',
-                    runtime:'193 min'
-                },
-                {
-                    year:'2020',
-                    runtime:'110 min'
-                },
-            ],
-        }
-    },
-    methods: {
-        
-    }
+    
+    
+    
 }
 </script>
 

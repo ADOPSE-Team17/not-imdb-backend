@@ -1,17 +1,28 @@
 <template>
   <div class="container">
-    <LoginCard/>
+    <LoginCard :loginForm="loginUser"/>
   </div>
 </template>
 
 <script>
 import LoginCard from '@/components/LoginCard.vue'
 
-
 export default{
     components: {
         LoginCard    
-    }
+    },
+    methods:{
+      loginUser(info){
+        try {
+          this.$store.dispatch('auth/loginUser',info)
+        } catch (error) {
+          console.log(error)
+        }
+        
+      }
+    },
+  
+    
 }
 
 </script>

@@ -44,8 +44,8 @@
               <v-icon v-text="item.icon"></v-icon>
             </v-list-item-icon>
 
-            <v-list-item-content>
-              <v-list-item-title v-text="item.text"></v-list-item-title>
+            <v-list-item-content @click="check(item.text)">
+              <v-list-item-title  v-text="item.text"></v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-item-group>
@@ -70,6 +70,15 @@
                 { text: 'Username', icon: 'mdi-human-male' },
                 { text: 'Password', icon: 'mdi-lock' },
             ],
+        }
+      },
+      methods:{
+        check(item){
+          // console.log('fdfsf')
+          switch(item){
+            case 'Watchlist':
+              $store.dispatch('movies/fetchWatchlist')
+          }
         }
       }
   }

@@ -22,7 +22,13 @@ export default {
     name:'SearchMovies',
     methods:{
         search(){
-            alert('Find That Movie')
+            try {
+                this.$store.dispatch('movies/fetchMovies')
+                console.log(this.$store.getters['movies/getFetchedMovies'])   
+            } catch (error) {
+                
+            }
+            
         },
         filters(){
             alert('show me the filters')

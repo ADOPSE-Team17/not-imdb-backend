@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-      <RegisterCard/>
+      <RegisterCard :registerForm="register"/>
   </div>
 </template>
 
@@ -10,7 +10,17 @@ import RegisterCard from '@/components/RegisterCard'
 export default {
     components: {
         RegisterCard
-    }
+    },
+    // computed:{
+    //     info(){
+    //         return this$store.state.auth.registerInfo
+    //     }
+    // },
+    methods:{
+        register(info){
+            this.$store.dispatch('auth/registerUser',info)
+        },
+    }  
 }
 </script>
 

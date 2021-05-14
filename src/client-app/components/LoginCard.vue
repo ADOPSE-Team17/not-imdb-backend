@@ -12,7 +12,8 @@
                 >
                     <v-text-field
                         class="pa-16 white--text"
-                        label="username"
+                        label="username/email"
+                        v-model="loginInfo.identifier"
                     ></v-text-field> 
                 </v-row>
                 <v-row
@@ -23,6 +24,7 @@
                         class="pa-16 input-group--focused white--text"
                         label="Password"
                         hint="At least 8 characters"
+                        v-model="loginInfo.password"
                         :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                         :type="show ? 'text' : 'password'"
                         error
@@ -34,20 +36,17 @@
                 class="mt-8"
                 >
                 <v-col>
-                    <v-btn
-                    class="ma-8"
-                    color="black white--text"
+                    <nuxt-link
+                        to="/"
                     >
-                    Log In
-                    </v-btn>
-                </v-col>
-                <v-col>
-                    <v-btn
-                    class="ma-8"
-                    color="black white--text"
-                    >
-                    Use SSO
-                    </v-btn>
+                        <v-btn
+                        class="ma-8"
+                        color="black white--text"
+                        @click="loginForm(loginInfo)"
+                        >
+                        Log In
+                        </v-btn>
+                    </nuxt-link>
                 </v-col>
                 </v-row>
                 <v-row
@@ -66,9 +65,19 @@ export default {
     name:'LoginCard',
     data(){
         return{
-            show : false
+            show : false,
+            loginInfo:{
+                identifier:'',
+                password:''
+            }
         }
     },
+    props:{
+        loginForm:{
+            type:Function,
+            required:true
+        }
+    }
 }
 </script>
 

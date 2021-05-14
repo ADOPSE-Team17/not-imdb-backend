@@ -10,9 +10,11 @@
     "storybook": "nuxt storybook"
   },
   "dependencies": {
+    "@nuxtjs/axios": "^5.13.1",
     "core-js": "^3.9.1",
     "nuxt": "^2.15.3",
-    "storybook": "^6.2.5"
+    "storybook": "^6.2.5",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@nuxtjs/storybook": "^4.0.1",

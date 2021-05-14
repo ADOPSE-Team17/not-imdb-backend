@@ -1,6 +1,6 @@
 <template>
   <v-app
-    class="theme--dark"
+    class="grey darken-4"
     >
         <v-app-bar
         fixed
@@ -14,10 +14,11 @@
       </div>
       <div class="ml-auto d-flex">
         <Avatar
-          v-show="loggedIn"
+          v-show="this.$store.getters['auth/loggedInUser']"
+          :accountName="this.$store.getters['auth/accountName']"
         />
-        <LinkButton v-show="!loggedIn" target="/Login" text="Login" ></LinkButton>
-        <LinkButton v-show="!loggedIn" target="/Register" text="Register" ></LinkButton>
+        <LinkButton v-show="!this.$store.getters['auth/loggedInUser']" target="/Login" text="Login" ></LinkButton>
+        <LinkButton v-show="!this.$store.getters['auth/loggedInUser']" target="/Register" text="Register" ></LinkButton>
       </div>
     </v-app-bar>
         <!-- The nuxt element is where the whole app takes place -->
@@ -42,12 +43,9 @@ import LinkButton from '@/components/LinkButton'
 export default {
   components: {
     Title,
+    Avatar,
+    LinkButton,
     Avatar
-  },
-  data(){
-    return {
-      loggedIn:false
-    }
-  },
+  }
 }
 </script>

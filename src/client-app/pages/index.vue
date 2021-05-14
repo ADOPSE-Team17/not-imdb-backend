@@ -1,18 +1,10 @@
 <template>
  <div>
+   <h2></h2>
    <v-row class="pa-8">
       <SearchMovies class="mx-auto"/>
     </v-row>
     <v-row class="pa-8">
-      <h2>|Headline 1</h2>
-      <CarouselList/>
-    </v-row>
-    <v-row class="pa-8">
-      <h2>|Headline 1</h2>
-      <CarouselList/>
-    </v-row>
-    <v-row class="pa-8">
-      <h2>|Headline 1</h2>
       <CarouselList/>
     </v-row>
  </div>
@@ -26,6 +18,9 @@ export default {
   components: {
     CarouselList,
     SearchMovies
+  },
+  beforeCreate(){
+      this.$store.dispatch('movies/fetchMovies')
   }
 }
 </script>
