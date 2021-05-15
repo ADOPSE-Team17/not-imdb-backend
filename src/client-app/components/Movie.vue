@@ -26,7 +26,7 @@
         <v-list-item v-if="abstract">
             <v-list-item-content>
                 <v-list-item-title>Abstract</v-list-item-title>
-                <v-list-item-subtitle>{{abstract}}</v-list-item-subtitle>
+                <p>{{abstract}}</p>
             </v-list-item-content>
         </v-list-item>
         <v-list-item v-if="about">
