@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -21,7 +22,6 @@ namespace src
     {
       _next = next;
       _configuration = configuration;
-      Console.WriteLine("Hello from the authenticaation middleware");
     }
 
     public async Task Invoke(
@@ -31,10 +31,7 @@ namespace src
       var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
       if (token != null) {
-        Console.WriteLine("token is not null: " + token);
         await attachAccountToContext(context, dataContext, token);
-      } else {
-        Console.WriteLine("token IS null");
       }
 
       await _next(context);
@@ -61,23 +58,11 @@ namespace src
         }, out SecurityToken validatedToken);
 
         var jwtToken = (JwtSecurityToken)validatedToken;
-        // var accountId = int.Parse(jwtToken.Claims.First(x => x.Type == "accountId").Value);
-
-        // attach account to context on successful jwt validation
-        context.Items["Account"] = "Hello world";
-        Claim[] claims  = new[] {
-          new Claim("name", "username"),
-          new Claim("username", "admin01"),
-          new Claim(ClaimTypes.Role, "admin")
-        };
-
-        var identity = new ClaimsIdentity(claims, "basic");
-        context.User = new ClaimsPrincipal(identity);
-        // userContext.User.Claims.Append(new System.Security.Claims.Claim("username", "this is my name"));
+        var accountId = int.Parse(jwtToken.Claims.First(x => x.Type == "userId").Value);
+        context.Items["User"] = dataContext.Users.Where(u => u.Id == accountId).Include("person").FirstOrDefault();
       }
       catch
       {
-        Console.WriteLine("I am in the middleware catch");
         // do nothing if jwt validation fails
         // account is not attached to context so request won't have access to secure routes
       }

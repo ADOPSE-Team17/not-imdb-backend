@@ -28,7 +28,7 @@ namespace src
 
 
       Claim[] claims = new[] {
-                new Claim("accountId", userInfo.Id.ToString()),
+                new Claim("userId", userInfo.Id.ToString()),
                 new Claim("Date", DateTime.UtcNow.ToString()),
                 new Claim(ClaimTypes.Role, userInfo.isAdmin ? "admin" : "user"),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())

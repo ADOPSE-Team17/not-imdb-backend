@@ -1,14 +1,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace src.Controllers
 {
-[ApiController]
-[Route("[controller]")]
+  [Authorize(Roles = "admin, user")]
+  [ApiController]
+  [Route("[controller]")]
   public class CommentsController : ControllerBase
   {
     protected readonly ILogger<CommentsController> _logger;
@@ -23,6 +25,7 @@ namespace src.Controllers
       _context = context;
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Comment>>> list()
     {
@@ -33,6 +36,7 @@ namespace src.Controllers
       return comments;
     }
 
+    [AllowAnonymous]
     [HttpGet("{id}")]
     public async Task<ActionResult<Comment>> GetComment(int id)
     {
@@ -48,7 +52,6 @@ namespace src.Controllers
       return comment;
     }
 
-
     [HttpPost("{movieId}")]
     public async Task<ActionResult<Comment>> CreateComment(int movieId, Comment comment)
     {
@@ -58,21 +61,23 @@ namespace src.Controllers
         .Include("comments")
         .FirstOrDefaultAsync();
 
-      if (movie is null) {
-          return NotFound(new {
-              message = "Movie not found!"
-          });
+      if (movie is null)
+      {
+        return NotFound(new
+        {
+          message = "Movie not found!"
+        });
       }
-      
+
       /*try 
       {*/
-        if(movie.comments is null) 
-        {
-          movie.comments = new List<Comment>();
-        }
-      
-        this._context.Set<Comment>().Attach(comment);
-        movie.comments.Add(comment);
+      if (movie.comments is null)
+      {
+        movie.comments = new List<Comment>();
+      }
+
+      this._context.Set<Comment>().Attach(comment);
+      movie.comments.Add(comment);
       /*}
       catch 
       {
@@ -84,37 +89,39 @@ namespace src.Controllers
     }
 
     [HttpPost("answer/{commentId}")]
-    public async Task<ActionResult<Comment>> CreateAnswerComment(Comment answer, int commentId) 
+    public async Task<ActionResult<Comment>> CreateAnswerComment(Comment answer, int commentId)
     {
       Comment comment = await this._context.Comments
         .Where(m => m.Id == commentId)
         .Include("answers")
         .FirstOrDefaultAsync();
 
-      if (comment is null) {
-          return NotFound(new {
-              message = "Comment not found!"
-          });
-      }
-      try 
+      if (comment is null)
       {
-        if (comment.answers is null ) 
-          {
-              comment.answers = new List<Comment>();
-          } 
-          this._context.Set<Comment>().Attach(answer);
-          comment.answers.Add(answer);
+        return NotFound(new
+        {
+          message = "Comment not found!"
+        });
       }
-      catch 
+      try
       {
-          return NotFound();
+        if (comment.answers is null)
+        {
+          comment.answers = new List<Comment>();
+        }
+        this._context.Set<Comment>().Attach(answer);
+        comment.answers.Add(answer);
+      }
+      catch
+      {
+        return NotFound();
       }
       await this._context.SaveChangesAsync();
       return comment;
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<Comment>> UpdateComment(int id, Comment comment) 
+    public async Task<ActionResult<Comment>> UpdateComment(int id, Comment comment)
     {
       if (id != comment.Id)
       {
@@ -136,7 +143,7 @@ namespace src.Controllers
         }
         else
         {
-            throw;
+          throw;
         }
       }
 
@@ -145,52 +152,58 @@ namespace src.Controllers
 
 
     [HttpDelete("{movieId}/remove/{commentId}")]
-    public async Task<ActionResult<Movie>> RemoveCommentFromMovie(int movieId, int commentId) 
+    public async Task<ActionResult<Movie>> RemoveCommentFromMovie(int movieId, int commentId)
     {
-        Movie movie = await this._context.Movies
-            .Where(m => m.Id == movieId)
-            .Include("comments")
-            .FirstOrDefaultAsync();
-        
-        if (movie is null) 
-        {
-            return NotFound(new {
-                message = "Movie not found"
-            });
-        } else if (!(movie.comments.Any(i => i.Id == commentId)))
-        {
-            return BadRequest(new {
-                message = "Comment not found"
-            });
-        }
+      Movie movie = await this._context.Movies
+          .Where(m => m.Id == movieId)
+          .Include("comments")
+          .FirstOrDefaultAsync();
 
-        movie.comments = movie.comments.Where( i => i.Id != commentId).ToList();
-        await this._context.SaveChangesAsync();
-        return movie;
+      if (movie is null)
+      {
+        return NotFound(new
+        {
+          message = "Movie not found"
+        });
+      }
+      else if (!(movie.comments.Any(i => i.Id == commentId)))
+      {
+        return BadRequest(new
+        {
+          message = "Comment not found"
+        });
+      }
+
+      movie.comments = movie.comments.Where(i => i.Id != commentId).ToList();
+      await this._context.SaveChangesAsync();
+      return movie;
     }
 
     [HttpDelete("{commentId}/removeAnswer/{answerId}")]
-    public async Task<ActionResult<Comment>> RemoveAnswerComment(int commentId, int answerId) 
+    public async Task<ActionResult<Comment>> RemoveAnswerComment(int commentId, int answerId)
     {
-        Comment comment = await this._context.Comments
-            .Where(m => m.Id == commentId)
-            .Include("answers")
-            .FirstOrDefaultAsync();
-        if (comment is null)
+      Comment comment = await this._context.Comments
+          .Where(m => m.Id == commentId)
+          .Include("answers")
+          .FirstOrDefaultAsync();
+      if (comment is null)
+      {
+        return NotFound(new
         {
-            return NotFound(new {
-                message = "Comment not found"
-            });
-        } else if (!(comment.answers.Any(i => i.Id == answerId)))
+          message = "Comment not found"
+        });
+      }
+      else if (!(comment.answers.Any(i => i.Id == answerId)))
+      {
+        return BadRequest(new
         {
-            return BadRequest(new {
-                message = "Answer not found"
-            });
-        }
+          message = "Answer not found"
+        });
+      }
 
-        comment.answers = comment.answers.Where( i => i.Id != answerId).ToList();
-        await this._context.SaveChangesAsync();
-        return comment;
+      comment.answers = comment.answers.Where(i => i.Id != answerId).ToList();
+      await this._context.SaveChangesAsync();
+      return comment;
     }
   }
 }

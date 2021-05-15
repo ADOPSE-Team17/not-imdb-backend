@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace src
 {
+  [AllowAnonymous]
   [ApiController]
   [Route("[controller]")]
   public class AuthController : ControllerBase
@@ -74,7 +76,6 @@ namespace src
       }
     }
 
-    [AllowAnonymous]
     [Route("Login")]
     [HttpPost]
     public async Task<ActionResult<LoginResponseDto>> Login(LoginDto dto)
@@ -109,6 +110,19 @@ namespace src
         return new LoginResponseDto(this._authenticationService.GenerateJWT(new UserDto(sUser)), new UserDto(sUser));
       }
     }
+  
+    [Route("verify")]
+    [HttpGet]
+    public async Task<ActionResult<UserDto>> Verify() {
+      HttpContext localContext = this.HttpContext;
+      bool isAuthenticated = this.HttpContext.User.Identity.IsAuthenticated;
+      User user = this.HttpContext.Items["User"] as User;
+      if (isAuthenticated && !(user is null)) {
+        return new UserDto(user);
+      } else {
+        return Unauthorized();
+      }
+    }
   }
 
   public class RegisterDto
@@ -125,14 +139,16 @@ namespace src
     public string password { get; set; }
   }
 
-  public class LoginResponseDto {
-    public string token {get; set;}
+  public class LoginResponseDto
+  {
+    public string token { get; set; }
 
-    public UserDto user  {get; set;}
+    public UserDto user { get; set; }
 
     public LoginResponseDto() { }
 
-    public LoginResponseDto(string token, UserDto user) {
+    public LoginResponseDto(string token, UserDto user)
+    {
       this.token = token;
       this.user = user;
     }

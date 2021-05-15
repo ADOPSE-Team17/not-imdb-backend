@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace src.Controllers
 {
+  [Authorize(Roles = "admin")]
   [ApiController]
   [Route("[controller]")]
   public class EventsController : ControllerBase
@@ -25,64 +27,71 @@ namespace src.Controllers
       _context = context;
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Event>>> Get()
     {
-        var allevents = await this._context.Events
-            .Include("movies")
-            .ToArrayAsync();
-        return allevents;
+      var allevents = await this._context.Events
+          .Include("movies")
+          .ToArrayAsync();
+      return allevents;
     }
 
+    [AllowAnonymous]
     [HttpGet("free")]
     public async Task<ActionResult<IEnumerable<Event>>> GetFreeEvents()
     {
-        var freeEvents = await this._context.Events
-            .Include("movies")
-            .Where(m => m.isAccessibleForFree == true)
-            .ToArrayAsync();
-        return freeEvents;
+      var freeEvents = await this._context.Events
+          .Include("movies")
+          .Where(m => m.isAccessibleForFree == true)
+          .ToArrayAsync();
+      return freeEvents;
     }
 
+    [AllowAnonymous]
     [HttpGet("nearevents/{location}")]
     public async Task<ActionResult<IEnumerable<Event>>> GetNearEvents(string location)
     {
-        var nearEvents = await this._context.Events
-            .Include("movies")
-            .Where(m => m.location == location)
-            .ToArrayAsync();
-        return nearEvents;
+      var nearEvents = await this._context.Events
+          .Include("movies")
+          .Where(m => m.location == location)
+          .ToArrayAsync();
+      return nearEvents;
     }
 
+    [AllowAnonymous]
     [HttpGet("joinEvent/{id}")]
     public async Task<ActionResult<Event>> JoinEvent(int id)
     {
-        var join = await this._context.Events
-            .Include("movies")
-            .Where(e => e.Id == id)
-            .FirstOrDefaultAsync();
-        
-        if(join is null)
+      var join = await this._context.Events
+          .Include("movies")
+          .Where(e => e.Id == id)
+          .FirstOrDefaultAsync();
+
+      if (join is null)
+      {
+        return NotFound(new
         {
-            return NotFound( new {
-                message = "event not found"
-            });
-        }
+          message = "event not found"
+        });
+      }
 
-        if(join.maximumAttendeeCapacity == 0)
+      if (join.maximumAttendeeCapacity == 0)
+      {
+        return NotFound(new
         {
-            return NotFound( new {
-                message = "event is full"
-            });
-        }
+          message = "event is full"
+        });
+      }
 
-        join.maximumAttendeeCapacity = join.maximumAttendeeCapacity - 1;
-        await _context.SaveChangesAsync();
-        Console.WriteLine("The maximumAttendeeCapacity of the event with id = ", join.Id, "is modified");
+      join.maximumAttendeeCapacity = join.maximumAttendeeCapacity - 1;
+      await _context.SaveChangesAsync();
+      Console.WriteLine("The maximumAttendeeCapacity of the event with id = ", join.Id, "is modified");
 
-        return join;
+      return join;
     }
-    
+
+    [AllowAnonymous]
     [HttpGet("{id}")]
     public async Task<ActionResult<Event>> Getevent(int id)
     {
@@ -102,53 +111,53 @@ namespace src.Controllers
     [HttpPost]
     public async Task<ActionResult<Event>> CreateEvent(Event anEvent)
     {
-        this._context.Events.Add(anEvent);
-        await _context.SaveChangesAsync();
-        return anEvent;
+      this._context.Events.Add(anEvent);
+      await _context.SaveChangesAsync();
+      return anEvent;
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<Event>> UpdateEvent(int id, Event anEvent) 
+    public async Task<ActionResult<Event>> UpdateEvent(int id, Event anEvent)
     {
-        if (id != anEvent.Id)
-        {
-            return BadRequest();
-        }
+      if (id != anEvent.Id)
+      {
+        return BadRequest();
+      }
 
-        _context.Entry(anEvent).State = EntityState.Modified;
-        var localevent = await this._context.Events.Where(m => m.Id == id).FirstOrDefaultAsync();
+      _context.Entry(anEvent).State = EntityState.Modified;
+      var localevent = await this._context.Events.Where(m => m.Id == id).FirstOrDefaultAsync();
 
-        try
+      try
+      {
+        await _context.SaveChangesAsync();
+      }
+      catch (DbUpdateConcurrencyException)
+      {
+        if (anEvent is null)
         {
-            await _context.SaveChangesAsync();
+          return NotFound();
         }
-        catch (DbUpdateConcurrencyException)
+        else
         {
-            if (anEvent is null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
+          throw;
         }
-        return anEvent;
+      }
+      return anEvent;
     }
 
     [HttpDelete("{id}")]
     public async Task<ActionResult<Event>> DeleteEvent(int id)
     {
-        var anEvent = await _context.Events.FindAsync(id);
-        if (anEvent == null)
-        {
-            return NotFound();
-        }
+      var anEvent = await _context.Events.FindAsync(id);
+      if (anEvent == null)
+      {
+        return NotFound();
+      }
 
-        _context.Events.Remove(anEvent);
-        await _context.SaveChangesAsync();
+      _context.Events.Remove(anEvent);
+      await _context.SaveChangesAsync();
 
-        return anEvent;
+      return anEvent;
     }
   }
 }

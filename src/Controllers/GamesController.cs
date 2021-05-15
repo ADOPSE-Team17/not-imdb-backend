@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace src.Controllers
 {
-  [Authorize(Roles = "admin")]
+  [Authorize(Roles = "admin, user")]
   [ApiController]
   [Route("[controller]")]
   public class GamesController : ControllerBase
@@ -57,6 +57,7 @@ namespace src.Controllers
       return poll;
     }
 
+    [Authorize(Roles = "admin")]
     [HttpPost]
     public async Task<ActionResult<Question>> create(Question question)
     {
@@ -95,6 +96,7 @@ namespace src.Controllers
       return question;
     }
 
+    [Authorize(Roles = "admin")]
     [HttpPut("{id}")]
     public async Task<ActionResult<Question>> update(int id, QuestionUpdateDto q)
     {
@@ -137,7 +139,8 @@ namespace src.Controllers
 
       return updated;
     }
-
+    
+    [Authorize(Roles = "admin")]
     [HttpDelete("{id}")]
     public async Task<ActionResult<Question>> delete(int id)
     {

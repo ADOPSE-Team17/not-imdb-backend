@@ -20,7 +20,6 @@ namespace src
 
     public Task<AuthorizationPolicy> GetDefaultPolicyAsync()
     {
-      Console.WriteLine("GetDefaultPolicyAsync()");
       return Task.FromResult<AuthorizationPolicy>(this.getRolesPolicy("TEST"));
     }
 
@@ -53,7 +52,6 @@ namespace src
       else
       {
         var policy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme);
-        Console.WriteLine(policy.ToString());
         policy.AddRequirements(new UserRoleRequirement("Administrator"));
         return policy.Build();
       }

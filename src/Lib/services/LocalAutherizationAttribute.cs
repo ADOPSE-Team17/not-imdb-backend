@@ -8,7 +8,6 @@ namespace src
     const string POLICY_PREFIX = "LocalAuthorize";
 
     public LocalAuthorizeAttribute(string role) {
-      Console.WriteLine("LocalAuthorizeAttribute with: " + role);
       Role = role;
     } 
 

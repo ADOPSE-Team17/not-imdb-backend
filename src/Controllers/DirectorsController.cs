@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace src.Controllers
 {
+  [Authorize(Roles = "admin")]
   [ApiController]
   [Route("[controller]")]
   public class DirectorsController : ControllerBase
@@ -24,6 +26,7 @@ namespace src.Controllers
       _context = context;
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Director>>> Get()
     {
@@ -33,6 +36,7 @@ namespace src.Controllers
       return directors;
     }
 
+    [AllowAnonymous]
     [HttpGet("{id}")]
     public async Task<ActionResult<Director>> GetDirector(int id)
     {
