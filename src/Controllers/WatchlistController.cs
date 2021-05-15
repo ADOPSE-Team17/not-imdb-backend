@@ -1,12 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace src.Controllers
 {
+  [Authorize(Roles = "admin, user")]
+  // [Authorize(Roles = "user")]
   [ApiController]
   [Route("[controller]")]
   public class WatchlistController : MovieListsController
@@ -20,30 +23,35 @@ namespace src.Controllers
 
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public new async Task<ActionResult<IEnumerable<MovieList>>> list()
     {
         return await base.list();
     }
 
+    [AllowAnonymous]
     [HttpGet("{id}")]
     public new async Task<ActionResult<MovieList>> GetMovieList(int id)
     {
         return await base.GetMovieList(id);
     }
-
+    
+    [Authorize(Roles = "admin")]
     [HttpPost]
     public new async Task<ActionResult<MovieList>> CreateMovieList(MovieList list)
     {
         return await base.CreateMovieList(list);
     }
 
+    [Authorize(Roles = "admin")]
     [HttpPut("{id}")]
     public new async Task<ActionResult<MovieList>> UpdateMovieList(int id, MovieList list)
     {
         return await base.UpdateMovieList(id, list);
     }
 
+    [Authorize(Roles = "admin")]
     [HttpDelete("{id}")]
     public new async Task<ActionResult<MovieList>> DeleteMovieList(int id)
     {

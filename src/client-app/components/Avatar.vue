@@ -1,47 +1,49 @@
 <template>
-<div>
-  <nuxt-link 
-    v-if="!this.$store.getters['auth/isAdmin']"
-    to="ProfileEdit"
-  >
-    <v-avatar>
-      <img
-        src="https://cdn.vuetifyjs.com/images/john.jpg"
-      >
-      
-    </v-avatar>
-  </nuxt-link>
-  <nuxt-link 
-    v-else
-    to="Admin/EditProfile"
-  >
-    <v-avatar>
-      <img
-        src="https://cdn.vuetifyjs.com/images/john.jpg"
-      >
-      
-    </v-avatar>
-  </nuxt-link>
-    <p>{{accountName}}</p>
-    </div>
+  <div class="d-relative">
+    <v-menu offset-y="true" top>
+      <template v-slot:activator="{ on, attrs }">
+        <div v-bind="attrs" v-on="on">
+          <v-avatar>
+            <img src="https://cdn.vuetifyjs.com/images/john.jpg" />
+          </v-avatar>
+          <span>{{ accountName }}</span>
+        </div>
+      </template>
+      <v-list>
+        <v-list-item>
+          <v-list-item-title>
+            <nuxt-link to="ProfileEdit"> Profile </nuxt-link>
+          </v-list-item-title>
+        </v-list-item>
+        <v-list-item
+          v-on:click="
+            () => {
+              this.logout(this.$store);
+            }
+          "
+        >
+          <v-list-item-title> Logout </v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+  </div>
 </template>
 
 <script>
 export default {
-    name:'Avatar',
-    props:{
-      accountName:{
-        type:String,
-      }
+  name: "Avatar",
+  props: {
+    accountName: {
+      type: String,
     },
-    methods:{
-      ja(){
-        console.log('sfdf')
-      }
-    }
-}
+  },
+  data: () => ({
+    showMenu: false,
+  }),
+  methods: {
+    logout: (store) => {
+      store.dispatch("auth/logoutUser");
+    },
+  },
+};
 </script>
-
-<style>
-
-</style>

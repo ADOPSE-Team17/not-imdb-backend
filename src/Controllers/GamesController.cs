@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace src.Controllers
 {
+  [Authorize(Roles = "admin, user")]
   [ApiController]
   [Route("[controller]")]
   public class GamesController : ControllerBase
@@ -25,6 +27,7 @@ namespace src.Controllers
       _context = context;
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Question>>> list()
     {
@@ -37,6 +40,7 @@ namespace src.Controllers
       return polls;
     }
 
+    [AllowAnonymous]
     [HttpGet("{id}")]
     public async Task<ActionResult<Question>> show(int id)
     {
@@ -53,6 +57,7 @@ namespace src.Controllers
       return poll;
     }
 
+    [Authorize(Roles = "admin")]
     [HttpPost]
     public async Task<ActionResult<Question>> create(Question question)
     {
@@ -91,6 +96,7 @@ namespace src.Controllers
       return question;
     }
 
+    [Authorize(Roles = "admin")]
     [HttpPut("{id}")]
     public async Task<ActionResult<Question>> update(int id, QuestionUpdateDto q)
     {
@@ -133,8 +139,8 @@ namespace src.Controllers
 
       return updated;
     }
-
-
+    
+    [Authorize(Roles = "admin")]
     [HttpDelete("{id}")]
     public async Task<ActionResult<Question>> delete(int id)
     {

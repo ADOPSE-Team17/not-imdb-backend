@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace src.Controllers
 {
+  [Authorize(Roles = "admin")]
   [ApiController]
   [Route("[controller]")]
   public class MoviesController : ControllerBase
@@ -24,6 +26,7 @@ namespace src.Controllers
       _context = context;
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Movie>>> Get()
     {
@@ -38,6 +41,7 @@ namespace src.Controllers
       return movies;
     }
 
+    [AllowAnonymous]
     [HttpGet("{id}")]
     public async Task<ActionResult<Movie>> Getmovie(int id)
     {
@@ -58,6 +62,7 @@ namespace src.Controllers
       return movie;
     }
 
+    [AllowAnonymous]
     [HttpGet("{id}/avgRating")]
     public async Task<ActionResult<Movie>> AvgRatingOfMovie(int id)
     {
@@ -66,8 +71,8 @@ namespace src.Controllers
         .Where(m => m.Id == id)
         .Select(c => c.ratings.Average(m => m.ratingValue))
         .FirstOrDefaultAsync();
-      
-      var movie = await this._context.Movies 
+
+      var movie = await this._context.Movies
         .Include("comments")
         .Include("events")
         .Include("products")

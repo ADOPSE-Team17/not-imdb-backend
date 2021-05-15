@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace src.Controllers
 {
+  [Authorize(Roles = "admin, user")]
   [ApiController]
   [Route("[controller]")]
   public class RatingsController : ControllerBase
@@ -24,6 +26,7 @@ namespace src.Controllers
       _context = context;
     }
 
+    [Authorize(Roles = "admin")]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Rating>>> Get()
     {
@@ -33,6 +36,7 @@ namespace src.Controllers
       return ratings;
     }
 
+    [Authorize(Roles = "admin")]
     [HttpGet("{id}")]
     public async Task<ActionResult<Rating>> GetRating(int id)
     {
@@ -56,39 +60,41 @@ namespace src.Controllers
         .Include("ratings")
         .FirstOrDefaultAsync();
 
-      if (movie is null) {
-          return NotFound(new {
-              message = "Movie not found!"
-          });
+      if (movie is null)
+      {
+        return NotFound(new
+        {
+          message = "Movie not found!"
+        });
       }
-      
+
       /*try 
       {*/
-        if(movie.ratings is null) 
-        {
-          movie.ratings = new List<Rating>();
-        }
-      
-        this._context.Set<Rating>().Attach(rating);
-        movie.ratings.Add(rating);
+      if (movie.ratings is null)
+      {
+        movie.ratings = new List<Rating>();
+      }
+
+      this._context.Set<Rating>().Attach(rating);
+      movie.ratings.Add(rating);
       /*}
       catch 
       {
         NotFound();
       } */
-      
+
       Movie avgRating = await this._context.Movies
         .Include("ratings")
         .Where(m => m.Id == movieId)
         //.Select(c => c.ratings.Average(m => m.ratingValue))
         .FirstOrDefaultAsync();
-      double av=0;
-      for(int i=0;i<avgRating.ratings.Count;i++)
+      double av = 0;
+      for (int i = 0; i < avgRating.ratings.Count; i++)
       {
         av += avgRating.ratings[i].ratingValue;
       }
 
-      if(avgRating.ratings.Count > 0) 
+      if (avgRating.ratings.Count > 0)
       {
         movie.rating = av / avgRating.ratings.Count;
 
