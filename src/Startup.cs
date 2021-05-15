@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -37,7 +38,16 @@ namespace src
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "src", Version = "v1" });
       });
       services.AddCors();
-      services.AddSingleton<AuthenticationService>(new AuthenticationService(Configuration["Jwt:Key"], Configuration["Jwt:Issuer"], 2));
+      int jwtTTL = 8;
+      try
+      {
+        jwtTTL = int.Parse(Configuration["Jwt:TTL"]);
+      }
+      catch
+      {
+        Console.WriteLine("Error parsing jwt ttl");
+      }
+      services.AddSingleton<AuthenticationService>(new AuthenticationService(Configuration["Jwt:Key"], Configuration["Jwt:Issuer"], jwtTTL));
       services.AddSingleton<IAuthorizationPolicyProvider, MyLocalAuthenticationPolicyProvider>();
       services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         .AddJwtBearer(options =>
