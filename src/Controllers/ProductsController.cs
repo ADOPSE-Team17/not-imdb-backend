@@ -104,6 +104,35 @@ namespace src.Controllers
       return product;
     }
 
+    [HttpPost("{movieId}")]
+    public async Task<ActionResult<Product>> CreateMovieProduct(int movieId, Product product)
+    {
+      this._context.Products.Add(product);
+      await _context.SaveChangesAsync();
+
+      Movie movie = await this._context.Movies
+        .Where(m => m.Id == movieId)
+        .Include("products")
+        .FirstOrDefaultAsync();
+
+      if (movie is null) {
+          return NotFound(new {
+              message = "Movie not found!"
+          });
+      }
+      
+      if(movie.products is null) 
+      {
+        movie.products = new List<Product>();
+      }
+      
+      this._context.Set<Product>().Attach(product);
+      movie.products.Add(product);
+      
+      await this._context.SaveChangesAsync();
+      return product;
+    }
+
     [HttpPut("{id}")]
     public async Task<ActionResult<Product>> UpdateProduct(int id, Product product)
     {
