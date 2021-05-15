@@ -26,7 +26,7 @@
         <v-list-item v-if="abstract">
             <v-list-item-content>
                 <v-list-item-title>Abstract</v-list-item-title>
-                <v-list-item-subtitle>{{abstract}}</v-list-item-subtitle>
+                <p>{{abstract}}</p>
             </v-list-item-content>
         </v-list-item>
         <v-list-item v-if="about">
@@ -54,11 +54,15 @@
     </v-card-text>
 
     <v-card-actions>
+        <v-col>
             <v-chip 
                 draggable class="ml-16"
             >
                 See trailer
             </v-chip>
+            </v-col>
+            <v-icon @click="ja">mdi-star</v-icon>
+            <small>Add to Watchlist</small>
     </v-card-actions>
   </v-card>
 </template>
@@ -99,6 +103,16 @@ export default {
             
         }
     },
+    data(){
+        return{
+            movie : this.$store.getters['movies/getFetchedMovieById']
+        }
+    },
+    methods:{
+        ja(){
+            this.$store.dispatch('movies/addToWatchlist',this.movie)
+        }
+    }
 
 }
 </script>

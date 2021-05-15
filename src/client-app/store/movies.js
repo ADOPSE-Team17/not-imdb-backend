@@ -5,7 +5,11 @@ export default{
     state(){
         return{
             fetchedMovies:[],
-            fetchedMovieById:{}
+            fetchedMovieById:{},
+            watchlist:[],
+            watchlistNames:[],
+            games:[],
+            lists:[]
         }
     },
     mutations:{
@@ -14,9 +18,21 @@ export default{
         },
         FETCH_WATCHLIST(state,Watchlist){
             state.watchlist = Watchlist
+            for(let j in state.watchlist){
+                console.log(j)
+            }
         },
         FETCH_MOVIE_BY_ID(state,movie){
             state.fetchedMovieById = movie
+        },
+        ADD_TO_WATCHLIST(state,movie){
+            state.watchlist.push(movie)
+        },
+        FETCH_GAMES(state,games){
+            state.games = games
+        },
+        FETCH_LISTS(state,list){
+          state.lists = list  
         }
     },
     actions:{
@@ -40,6 +56,49 @@ export default{
             } catch (error) {
                 console.log(error)
             }
+        },
+        async fetchWatchlist({commit}){
+            try {
+                const res = await axios.get('http://localhost:5000/WatchList')
+                commit('FETCH_WATCHLIST',res.data)
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async addToWatchlist({commit},movie){
+            try {
+                // console.log(movie.id)
+                const body={
+                    "movieId":movie.id
+                }
+                const res = await axios.post('http://localhost:5000/WatchList/4', body)
+                // console.log(res.data)
+                commit(ADD_TO_WATCHLIST,res.data)
+            } catch (error) {
+                console.log(error)
+            }
+        },
+
+        async fetchGames({commit}){
+            try {
+                axios.get('http://localhost:5000/Games').then((result) =>{
+                    // console.log(result.data)
+                    commit('FETCH_GAMES',result.data)
+                })
+                
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        async fetchLists({commit}){
+            try {
+                axios.get('http://localhost:5000/Movies').then((result) => {
+                    // console.log(result.data)
+                    commit('FETCH_LISTS',result.data)
+                })
+            } catch (error) {
+                
+            }
         }
          
         
@@ -50,6 +109,15 @@ export default{
         },
         getFetchedMovieById:(state) => {
             return state.fetchedMovieById
+        },
+        getWatchlist:(state) => {
+            return state.watchlist
+        },
+        getGames:(state) => {
+            return state.games
+        },
+        getLists:(state) => {
+            return state.lists
         }
     }
 }

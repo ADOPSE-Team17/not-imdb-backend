@@ -70,6 +70,9 @@ export default{
        },
        accountName:(state) => {
            return state.loginInfo.identifier
+       },
+       isAdmin:(state) => {
+           return state.isAdmin
        }
     }
 }
