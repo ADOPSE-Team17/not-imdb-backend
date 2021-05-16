@@ -1,0 +1,28 @@
+{
+  "schema": [
+    {
+      "label": "Headline",
+      "name": "headline",
+      "validation": "required"
+    },
+    {
+      "label": "Absctract",
+      "name": "abstractText"
+    },
+    {
+      "label": "About",
+      "name": "about"
+    },
+    {
+      "label": "Duration",
+      "name": "duration"
+    },
+    {
+      "label": "Creator",
+      "name": "creator"
+    },
+    {
+      "type": "submit"
+    }
+  ]
+}

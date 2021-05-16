@@ -1,0 +1,30 @@
+{
+  "schema": [
+    {
+      "component": "h3",
+      "children": "Student registration"
+    },
+    {
+      "label": "Your name",
+      "name": "name",
+      "validation": "required"
+    },
+    {
+      "label": "Your email",
+      "name": "email",
+      "help": "Please use your student email address",
+      "validation": "bail|required|email|ends_with:.edu",
+      "validation-messages": {
+        "ends_with": "Please use a .edu email address"
+      }
+    },
+    {
+      "label": "Student ID",
+      "name": "student_id",
+      "help": "Your 6 digit student ID (ex. ST-123421)",
+      "placeholder": "ST-",
+      "validation": "^required|matches:/^ST-[\\d]{6}$/",
+      "validation-name": "Student ID"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 <template>
   <div class="d-relative">
-    <v-menu :offset-y="true" top>
+    <v-menu :offset-y="true" bottom>
       <template v-slot:activator="{ on, attrs }">
         <div v-bind="attrs" v-on="on">
           <v-avatar>

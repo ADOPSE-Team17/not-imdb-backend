@@ -1,5 +1,14 @@
 <template>
-  <div>
+  <v-card>
+    <v-card-title>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
     <v-data-table
       :items="data"
       :loading="loading"
@@ -7,6 +16,7 @@
       loading-text="Loading data"
       sort-by="id"
       class="elevation-1"
+      :search="search"
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -21,12 +31,19 @@
             </template>
             <v-card>
               <v-card-title>
-                <span class="headline">{{ resource.title }}</span>
+                <span class="headline"
+                  >{{ resource.title }} - {{ currentAction }}
+                </span>
               </v-card-title>
 
               <v-card-text>
                 <v-container>
-                  <v-row> </v-row>
+                  <ModelForm
+                    :model="resource.title"
+                    :openForm="openForm"
+                    :openModel="itemToEdit ? itemToEdit : {}"
+                    :action="currentAction"
+                  ></ModelForm>
                 </v-container>
               </v-card-text>
 
@@ -58,22 +75,26 @@
           </v-dialog>
         </v-toolbar>
       </template>
-      <!-- <template v-slot:item.actions="{ item }">
+      <template v-slot:[`item.actions`]="{ item }">
         <v-icon small class="mr-2" @click="editItem(item)"> mdi-pencil </v-icon>
         <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
-      </template> -->
+      </template>
       <template v-slot:no-data>
         <v-btn color="primary" @click="initialize"> Reset </v-btn>
       </template>
     </v-data-table>
-  </div>
+  </v-card>
 </template>
 
 <script>
 import axios from "axios";
+import ModelForm from "./../../components/Models/ModelForm";
 
 export default {
   layout: "admin",
+  components: {
+    ModelForm,
+  },
   data() {
     return {
       resource: {
@@ -86,7 +107,12 @@ export default {
       headers: [],
       metadata: this.$store.getters["models/getModels"],
       dialogDelete: false,
-      dialog: false
+      dialog: false,
+      openForm: {},
+      search: undefined,
+      itemToDelete: undefined,
+      itemToEdit: undefined,
+      currentAction: "new",
     };
   },
   methods: {
@@ -94,23 +120,27 @@ export default {
       this.loading = true;
       this.error = undefined;
       let headers;
-      let data; 
+      let data;
       try {
         const rawData = (await axios.get(model)).data;
         let currentModel;
-        
+
         this.metadata.resources.forEach((element) => {
           if (element.title === model) {
             currentModel = element;
           }
         });
 
-        if (rawData.length > 0) {
+        if (rawData.length > 0 && currentModel) {
           headers = currentModel.fields.map((field) => {
             return {
               text: field.label,
               value: Array.isArray(field.key) ? field.key.join("_") : field.key,
             };
+          });
+          headers.push({
+            text: "Actions",
+            value: "actions",
           });
 
           data = rawData.map((entry) => {
@@ -119,18 +149,22 @@ export default {
               if (Array.isArray(field.key) && field.key.length > 0) {
                 let cValue = entry;
                 let hasError = false;
-                for (let i=0; i<field.key.length; i++) {
+                for (let i = 0; i < field.key.length; i++) {
                   let cKey = field.key[i];
-                  if (cValue.hasOwnProperty([cKey]) && cValue[cKey] !== undefined && cValue[cKey] !== null ) {
-                      cValue = cValue[cKey];
+                  if (
+                    cValue.hasOwnProperty([cKey]) &&
+                    cValue[cKey] !== undefined &&
+                    cValue[cKey] !== null
+                  ) {
+                    cValue = cValue[cKey];
                   } else {
                     hasError = true;
                     break;
                   }
                 }
 
-                Object.defineProperty(currenctObject, field.key.join('_'), {
-                  value: hasError ? '' : cValue,
+                Object.defineProperty(currenctObject, field.key.join("_"), {
+                  value: hasError ? "" : cValue,
                   writable: true,
                 });
               } else {
@@ -160,13 +194,53 @@ export default {
       }
     },
     async save() {},
-    async close() {},
-    async deleteItemConfirm() {},
-    async closeDelete() {},
-    async initialize() {},
+    async close() {
+      this.currentAction = "new";
+      this.itemToEdit = undefined;
+      this.dialog = false;
+    },
+    async deleteItemConfirm() {
+      try {
+        await axios.delete(
+          `/${this.resource.model.title}/${this.itemToDelete.id}`
+        );
+        this.dialogDelete = false;
+        await this.initialize();
+      } catch (err) {
+        console.error(err);
+      }
+    },
+    async closeDelete() {
+      this.itemToDelete = undefined;
+      this.dialogDelete = false;
+    },
+    editItem(data) {
+      this.currentAction = "edit";
+      this.itemToEdit = data;
+      this.dialog = true;
+    },
+    deleteItem(item) {
+      this.itemToDelete = item;
+      this.dialogDelete = true;
+    },
+    async initialize() {
+      this.readModel(this.$route.params.resource);
+    },
+    async handleSubmit(data) {
+      console.log("parent data: ", data);
+    },
   },
   created() {
     this.readModel(this.$route.params.resource);
+    this.$store.subscribe((mutation) => {
+      if (mutation.type === "models/MODEL_SAVE") {
+        this.readModel(this.$route.params.resource);
+        this.dialogDelete = false;
+        this.dialog = false;
+        console.log("payload: ", mutation.payload);
+      }
+    });
   },
+  updated() {},
 };
 </script>

@@ -5,7 +5,8 @@ const defualtState = {
   models: {
     loading: true,
     error: undefined,
-    resources: []
+    resources: [],
+    openForm: undefined
   }
 };
 
@@ -22,6 +23,9 @@ const store = {
       state.models.error = data && data.error ? data.error : undefined;
       
       return state;
+    },
+    MODEL_SAVE(state, data) {
+      state.openForm = data;
     }
   },
   actions: {
@@ -39,6 +43,9 @@ const store = {
           error: err
         });
       }
+    },
+    async submitForm({commit}, data) {
+      commit('MODEL_SAVE', data);
     }
   },
   getters: {
