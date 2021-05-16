@@ -100,6 +100,9 @@ namespace src.Controllers
 
       }
 
+      var user = this.HttpContext.Items["User"] as User;
+      rating.ownerId = user.Id;
+
       await this._context.SaveChangesAsync();
       return rating;
     }
