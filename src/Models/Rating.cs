@@ -14,5 +14,7 @@ namespace src
     public User author { get; set; }
 
     public int ratingValue { get; set; }
+    
+    public int ownerId { get; set; }
   }
 }

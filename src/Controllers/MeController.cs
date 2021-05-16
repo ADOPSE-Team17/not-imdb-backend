@@ -57,5 +57,16 @@ namespace src.Controllers
         return favorite;
     }
 
+    [HttpGet("ratings")]
+    public async Task<ActionResult<IEnumerable<Rating>>> GetRatings()
+    {
+      var user = this.HttpContext.Items["User"] as User;
+      var ratings = await this._context.Ratings
+        .Where(r => r.ownerId == user.Id)
+        .ToArrayAsync();
+
+      return ratings;
+    }
+
   }
 }
