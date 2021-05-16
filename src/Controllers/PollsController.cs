@@ -156,5 +156,33 @@ namespace src.Controllers
       await this._context.SaveChangesAsync();
       return question;
     }
+
+    [HttpPost("{id}/vote/{option}")]
+    public async Task<ActionResult<Question>> vote(int id, int option)
+    {
+      
+      Question poll = await this._context.Questions
+        .Where(q => q.Id == id && q.additionalType == Question.POLL)
+        .Include("answers")
+        .FirstOrDefaultAsync();
+
+      if (poll is null)
+      {
+        return NotFound();
+      }
+      User user = this.HttpContext.Items["User"] as User;
+      if (!(poll.answers.Find(v => v.agent.Id == user.Id) is null)) {
+        return Conflict("Already voted");
+      }
+
+      VoteAction vote = new VoteAction();
+      vote.agent = user;
+      vote.answer = option;
+      this._context.VoteActions.Add(vote);
+      poll.answers.Add(vote);
+
+      await this._context.SaveChangesAsync();
+      return poll;
+    }
   }
 }
