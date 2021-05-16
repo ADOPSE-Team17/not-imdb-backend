@@ -116,6 +116,35 @@ namespace src.Controllers
       return anEvent;
     }
 
+    [HttpPost("{movieId}")]
+    public async Task<ActionResult<Event>> CreateMovieProduct(int movieId, Event anevent)
+    {
+      this._context.Events.Add(anevent);
+      await _context.SaveChangesAsync();
+
+      Movie movie = await this._context.Movies
+        .Where(m => m.Id == movieId)
+        .Include("events")
+        .FirstOrDefaultAsync();
+
+      if (movie is null) {
+          return NotFound(new {
+              message = "Movie not found!"
+          });
+      }
+      
+      if(movie.events is null) 
+      {
+        movie.events = new List<Event>();
+      }
+      
+      this._context.Set<Event>().Attach(anevent);
+      movie.events.Add(anevent);
+      
+      await this._context.SaveChangesAsync();
+      return anevent;
+    }
+
     [HttpPut("{id}")]
     public async Task<ActionResult<Event>> UpdateEvent(int id, Event anEvent)
     {

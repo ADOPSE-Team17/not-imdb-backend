@@ -32,6 +32,7 @@ namespace src
 
       services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
       services.AddControllers();
+      services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
       services.AddDbContext<ApplicationDbContext>();
       services.AddSwaggerGen(c =>
       {
