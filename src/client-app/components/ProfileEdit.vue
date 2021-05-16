@@ -16,7 +16,7 @@
           </v-list-item-avatar>
         </v-list-item>
  <v-card-title> 
-        {{account.identifier}}
+        {{this.account.identifier}}
     </v-card-title>
        
       </v-list>
@@ -57,7 +57,7 @@
               <v-list-item three-line>
                 <v-list-item-content>
                   <div class="overline mb-4">
-                     {{account.identifier}}'s Watchlist
+                     My Watchlist
                   </div>
                   <div v-for="object in this.watchlist" :key="object.id">
                   <v-list-item-title class="headline mb-1">
@@ -82,7 +82,7 @@
               <v-list-item three-line>
                 <v-list-item-content>
                   <div class="overline mb-4">
-                    {{account.identifier}}'s List
+                    My List
                   </div>
                   <div v-for="object in this.$store.getters['movies/getLists']" :key="object.id">
                     <v-list-item-title v-if="object.abstractText"  class="headline mb-1">
@@ -105,7 +105,7 @@
               <v-list-item three-line>
                 <v-list-item-content>
                   <div class="overline mb-4">
-                    {{account.identifier}}'s Games
+                    My Games
                   </div>
                   <div v-for="object in this.$store.getters['movies/getGames']" :key="object.id">
                     <v-list-item-title class="headline mb-1">
@@ -130,6 +130,7 @@
             showPolls: false,
             showGames : false,
             watchlist : [],
+            account:{},
             games:[],
             item:'Watchlist',
             selectedItem: 0,
@@ -143,9 +144,13 @@
       created(){
         this.$store.dispatch('movies/fetchWatchlist')
         this.watchlist = this.$store.getters['movies/getWatchlist']
+        console.log(this.watchlist)
         this.$store.dispatch('movies/fetchGames')
         // console.log(this.$store.getters['movies/getGames'])
         this.$store.dispatch('movies/fetchLists')
+        console.log(this.$store.getters['auth/account'])
+      },
+      created(){
       },
       methods:{
         showDialog(itemText){
@@ -169,10 +174,5 @@
           }
         },
       },
-      props:{
-        account:{
-          type:Object
-        },
-      }
     }
 </script>
