@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using System;
 
 namespace src.Controllers
 {
@@ -28,16 +29,22 @@ namespace src.Controllers
 
     [AllowAnonymous]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Movie>>> Get()
+    public async Task<ActionResult<IEnumerable<Movie>>> Get([FromQuery(Name = "search")] string search)
     {
-      var movies = await this._context.Movies
+      var moviesQery = this._context.Movies
         .Include("comments")
         .Include("events")
         .Include("products")
         .Include("parentMovie")
-        .Include("ratings")
-        .ToArrayAsync();
+        .Include("ratings");
+      
+      if (!(search is null)) {
+        moviesQery = moviesQery.Where(m => m.headline.Contains(search) || m.about.Contains(search) || m.abstractText.Contains(search));
+      }
 
+      Console.WriteLine("search: " + search);
+      
+      Movie[] movies = await moviesQery.ToArrayAsync();
       return movies;
     }
 
