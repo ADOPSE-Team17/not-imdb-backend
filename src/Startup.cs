@@ -102,6 +102,20 @@ namespace src
           .SetIsOriginAllowed(origin => true) // allow any origin);
       );
 
+      app.UseStaticFiles(new StaticFileOptions
+        {
+          FileProvider = new PhysicalFileProvider(
+            Path.Combine(env.ContentRootPath, "./assets")
+          ),
+          RequestPath = "/assets",
+          OnPrepareResponse = ctx =>
+          {
+              // using Microsoft.AspNetCore.Http;
+              ctx.Context.Response.Headers.Append(
+                  "Access-Control-Allow-Origin", $"*");
+          }
+        }
+      );
       app.UseRouting();
       app.UseAuthentication();
       app.UseAuthorization();

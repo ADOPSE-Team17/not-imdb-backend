@@ -1,4 +1,5 @@
 import axios from 'axios';
+axios.defaults.baseURL = "http://localhost:5000";
 
 export default {
     namespaced: true,
@@ -33,7 +34,7 @@ export default {
             if (info.isAdmin) {
                 state.isAdmin = true
             }
-            console.log('it should log');
+
             return this.info;
         },
         LOGOUT_USER(state) {
