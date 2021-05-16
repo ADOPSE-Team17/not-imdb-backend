@@ -57,8 +57,12 @@ namespace src.Controllers
     [ApiExplorerSettings(IgnoreApi=true)]
     public async Task<ActionResult<MovieList>> CreateMovieList(MovieList list)
     {
+      var user = this.HttpContext.Items["User"] as User;
+
       list.additionalType = this.additionalType;
       this._context.MovieLists.Add(list);
+      list.ownerId = user.Id;
+      
       await _context.SaveChangesAsync();
       return list;
     }
