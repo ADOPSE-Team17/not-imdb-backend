@@ -57,6 +57,7 @@ export default{
         async fetchWatchlist({commit}){
             try {
                 const res = await axios.get('http://localhost:5000/WatchList')
+                console.log(res.data)
                 commit('FETCH_WATCHLIST',res.data)
             } catch (error) {
                 console.log(error)
@@ -67,7 +68,7 @@ export default{
                 // console.log(movie.id)
                
                 const res = await axios.post(`http://localhost:5000/watchlist/4/addItem/${movie.id}`)
-                // console.log(res.data)
+                console.log(res.data)
                 commit('ADD_TO_WATCHLIST',res.data)
             } catch (error) {
                 console.log(error)
