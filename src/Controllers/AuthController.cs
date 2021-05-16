@@ -62,8 +62,18 @@ namespace src
           account.password = dto.password;
           account.userId = user.Id;
           this._context.Set<Account>().Attach(account);
-
           user.accounts.Add(account);
+
+          MovieList favoritesList = new MovieList();
+          favoritesList.additionalType = MovieList.FAVORITES;
+          favoritesList.owner = user;
+          this._context.Set<MovieList>().Attach(favoritesList);
+
+          MovieList watchList = new MovieList();
+          watchList.additionalType = MovieList.WATCHLIST;
+          watchList.owner = user;
+          this._context.Set<MovieList>().Attach(watchList);
+
           await this._context.SaveChangesAsync();
           await transaction.CommitAsync();
           return new UserDto(user);
