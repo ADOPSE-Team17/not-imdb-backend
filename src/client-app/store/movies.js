@@ -18,9 +18,6 @@ export default{
         },
         FETCH_WATCHLIST(state,Watchlist){
             state.watchlist = Watchlist
-            for(let j in state.watchlist){
-                console.log(j)
-            }
         },
         FETCH_MOVIE_BY_ID(state,movie){
             state.fetchedMovieById = movie
@@ -68,12 +65,10 @@ export default{
         async addToWatchlist({commit},movie){
             try {
                 // console.log(movie.id)
-                const body={
-                    "movieId":movie.id
-                }
-                const res = await axios.post('http://localhost:5000/WatchList/4', body)
+               
+                const res = await axios.post(`http://localhost:5000/watchlist/4/addItem/${movie.id}`)
                 // console.log(res.data)
-                commit(ADD_TO_WATCHLIST,res.data)
+                commit('ADD_TO_WATCHLIST',res.data)
             } catch (error) {
                 console.log(error)
             }

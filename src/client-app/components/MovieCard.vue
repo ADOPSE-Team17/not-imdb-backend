@@ -69,15 +69,12 @@ export default {
     props: {
         year:{
             type:String,
-            required:true
         },
         runtime:{
             type:Number,
-            required:true
         },
         Movietitle:{
             type:String,
-            required:true
         },
         id:{
             type:Number
