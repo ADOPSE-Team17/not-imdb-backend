@@ -75,6 +75,16 @@ namespace src.Controllers
       newUser.person = person;
       this._context.Set<User>().Attach(newUser);
 
+      MovieList favoritesList = new MovieList();
+      favoritesList.additionalType = MovieList.FAVORITES;
+      favoritesList.owner = newUser;
+      this._context.Set<MovieList>().Attach(favoritesList);
+
+      MovieList watchList = new MovieList();
+      watchList.additionalType = MovieList.WATCHLIST;
+      watchList.owner = newUser;
+      this._context.Set<MovieList>().Attach(watchList);
+
       await _context.SaveChangesAsync();
       return new UserDto(newUser);
     }
