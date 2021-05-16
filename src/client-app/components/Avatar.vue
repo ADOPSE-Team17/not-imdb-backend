@@ -1,6 +1,6 @@
 <template>
   <div class="d-relative">
-    <v-menu offset-y="true" top>
+    <v-menu :offset-y="true" top>
       <template v-slot:activator="{ on, attrs }">
         <div v-bind="attrs" v-on="on">
           <v-avatar>
@@ -10,6 +10,11 @@
         </div>
       </template>
       <v-list>
+        <v-list-item v-if="isAdmin">
+          <v-list-item-title>
+            <nuxt-link to="Admin"> Dashboard </nuxt-link>
+          </v-list-item-title>
+        </v-list-item>
         <v-list-item>
           <v-list-item-title>
             <nuxt-link to="ProfileEdit"> Profile </nuxt-link>
@@ -32,11 +37,7 @@
 <script>
 export default {
   name: "Avatar",
-  props: {
-    accountName: {
-      type: String,
-    },
-  },
+  props: ['accountName', 'isAdmin'],
   data: () => ({
     showMenu: false,
   }),

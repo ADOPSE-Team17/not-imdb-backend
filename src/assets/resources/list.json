@@ -1,0 +1,142 @@
+{
+  "resources": [
+    {
+      "icon": "mdi-folder-account",
+      "title": "Users",
+      "label": "Users",
+      "fields": [
+        {
+          "key": "id",
+          "label": "id",
+          "editable": false,
+          "sortalbe": true
+        },
+        {
+          "key": [
+            "person",
+            "givenName"
+          ],
+          "label": "Name",
+          "editable": false
+        },
+        {
+          "key": [
+            "person",
+            "familyName"
+          ],
+          "label": "Family name",
+          "editable": false
+        },
+        {
+          "key": "isAdmin",
+          "label": "Admin",
+          "editable": true
+        }
+      ]
+    },
+    {
+      "icon": "mdi-video-vintage",
+      "title": "Movies",
+      "label": "Movies",
+      "fields": [
+        {
+          "key": "id",
+          "label": "id",
+          "editable": false,
+          "sortalbe": true
+        }
+      ]
+    },
+    {
+      "icon": "mdi-video-vintage",
+      "title": "ToptenList",
+      "label": "Top 10",
+      "fields": [
+        {
+          "key": "id",
+          "label": "id",
+          "editable": false,
+          "sortalbe": true
+        }
+      ]
+    },
+    {
+      "icon": "mdi-video-vintage",
+      "title": "FavoriteLists",
+      "label": "Favorite Lists",
+      "fields": [
+        {
+          "key": "id",
+          "label": "id",
+          "editable": false,
+          "sortalbe": true
+        }
+      ]
+    },
+    {
+      "icon": "mdi-video-vintage",
+      "title": "WatchLists",
+      "label": "Watch Lists",
+      "fields": [
+        {
+          "key": "id",
+          "label": "id",
+          "editable": false,
+          "sortalbe": true
+        }
+      ]
+    },
+    {
+      "icon": "mdi-human-male-height",
+      "title": "Actors",
+      "label": "Actors",
+      "fields": [
+        {
+          "key": "id",
+          "label": "id",
+          "editable": false,
+          "sortalbe": true
+        }
+      ]
+    },
+    {
+      "icon": "mdi-chart-box",
+      "title": "Games",
+      "label": "Games",
+      "fields": [
+        {
+          "key": "id",
+          "label": "id",
+          "editable": false,
+          "sortalbe": true
+        }
+      ]
+    },
+    {
+      "icon": "mdi-chart-box",
+      "title": "Polls",
+      "label": "Polls and Lists",
+      "fields": [
+        {
+          "key": "id",
+          "label": "id",
+          "editable": false,
+          "sortalbe": true
+        }
+      ]
+    },
+    {
+      "icon": "mdi-comment",
+      "title": "Comments",
+      "label": "Comments",
+      "fields": [
+        {
+          "key": "id",
+          "label": "id",
+          "editable": false,
+          "sortalbe": true
+        }
+      ]
+    }
+  ]
+}

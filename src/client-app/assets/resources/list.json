@@ -1,0 +1,49 @@
+{
+  "resourses": [
+    {
+      "icon": "mdi-folder-account",
+      "title": "Users",
+      "label": "Users"
+    },
+    {
+      "icon": "mdi-video-vintage",
+      "title": "Movies",
+      "label": "Movies"
+    },
+    {
+      "icon": "mdi-video-vintage",
+      "title": "TopTenList",
+      "label": "Top 10"
+    },
+    {
+      "icon": "mdi-video-vintage",
+      "title": "FavoriteLists",
+      "label": "Favorite Lists"
+    },
+    {
+      "icon": "mdi-video-vintage",
+      "title": "WatchLists",
+      "label": "Watch Lists"
+    },
+    {
+      "icon": "mdi-human-male-height",
+      "title": "Actors",
+      "label": "Actors"
+    },
+    {
+      "icon": "mdi-chart-box",
+      "title": "Games",
+      "label": "Games"
+    },
+    {
+      "icon": "mdi-chart-box",
+      "title": "Polls",
+      "label": "Polls and Lists"
+    },
+    {
+      "icon": "mdi-comment",
+      "title": "Comments",
+      "label": "Comments"
+    }
+  ]
+}
