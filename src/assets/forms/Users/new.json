@@ -1,0 +1,25 @@
+{
+  "schema": [
+    {
+      "label": "Username",
+      "name": "username",
+      "validation": "required"
+    },
+    {
+      "label": "Email",
+      "name": "email",
+      "help": "Please use your email address"
+    },
+    {
+      "label": "Given name",
+      "name": "person_givenName"
+    },
+    {
+      "label": "Family name",
+      "name": "person_familyName"
+    },
+    {
+      "type": "submit"
+    }
+  ]
+}

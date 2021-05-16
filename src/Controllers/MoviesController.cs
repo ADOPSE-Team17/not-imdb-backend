@@ -41,8 +41,6 @@ namespace src.Controllers
       if (!(search is null)) {
         moviesQery = moviesQery.Where(m => m.headline.Contains(search) || m.about.Contains(search) || m.abstractText.Contains(search));
       }
-
-      Console.WriteLine("search: " + search);
       
       Movie[] movies = await moviesQery.ToArrayAsync();
       return movies;
