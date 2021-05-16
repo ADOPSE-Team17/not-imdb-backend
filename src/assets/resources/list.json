@@ -44,6 +44,43 @@
           "label": "id",
           "editable": false,
           "sortalbe": true
+        },
+        {
+          "key": "headline",
+          "label": "Headline",
+          "editable": true,
+          "sortalbe": true
+        },
+        {
+          "key": "duration",
+          "label": "Duration",
+          "editable": true,
+          "sortalbe": true
+        },
+        {
+          "key": "creator",
+          "label": "Creator",
+          "editable": true,
+          "sortalbe": true
+        },
+        {
+          "key": "rating",
+          "label": "Rating",
+          "editable": true,
+          "sortalbe": true
+        },
+        {
+          "key": "dateCreated",
+          "label": "Creation Date",
+          "editable": true,
+          "sortalbe": true
+        }
+        ,
+        {
+          "key": "dateModified",
+          "label": "Modification Date",
+          "editable": true,
+          "sortalbe": true
         }
       ]
     },
@@ -56,6 +93,31 @@
           "key": "id",
           "label": "id",
           "editable": false,
+          "sortalbe": true
+        },
+        {
+          "key": "ownerId",
+          "label": "Owner Id",
+          "editable": true,
+          "sortalbe": true
+        },
+        {
+          "key": "headline",
+          "label": "Headline",
+          "editable": true,
+          "sortalbe": true
+        },
+        {
+          "key": "alternateName",
+          "label": "Alternative Name",
+          "editable": true,
+          "sortalbe": true
+        }
+        ,
+        {
+          "key": "numberOfItems",
+          "label": "Number Of Items",
+          "editable": true,
           "sortalbe": true
         }
       ]
@@ -70,6 +132,31 @@
           "label": "id",
           "editable": false,
           "sortalbe": true
+        },
+        {
+          "key": "ownerId",
+          "label": "Owner Id",
+          "editable": true,
+          "sortalbe": true
+        },
+        {
+          "key": "headline",
+          "label": "Headline",
+          "editable": true,
+          "sortalbe": true
+        },
+        {
+          "key": "alternateName",
+          "label": "Alternative Name",
+          "editable": true,
+          "sortalbe": true
+        }
+        ,
+        {
+          "key": "numberOfItems",
+          "label": "Number Of Items",
+          "editable": true,
+          "sortalbe": true
         }
       ]
     },
@@ -83,6 +170,31 @@
           "label": "id",
           "editable": false,
           "sortalbe": true
+        },
+        {
+          "key": "ownerId",
+          "label": "Owner Id",
+          "editable": true,
+          "sortalbe": true
+        },
+        {
+          "key": "headline",
+          "label": "Headline",
+          "editable": true,
+          "sortalbe": true
+        },
+        {
+          "key": "alternateName",
+          "label": "Alternative Name",
+          "editable": true,
+          "sortalbe": true
+        }
+        ,
+        {
+          "key": "numberOfItems",
+          "label": "Number Of Items",
+          "editable": true,
+          "sortalbe": true
         }
       ]
     },
@@ -94,6 +206,51 @@
         {
           "key": "id",
           "label": "id",
+          "editable": false,
+          "sortalbe": true
+        },
+        {
+          "key": [
+            "person",
+            "id"
+          ],
+          "label": "Actor Id",
+          "editable": false,
+          "sortalbe": true
+        },
+        {
+          "key": [
+            "person",
+            "givenName"
+          ],
+          "label": "Actor Given Name",
+          "editable": false,
+          "sortalbe": true
+        },
+        {
+          "key": [
+            "person",
+            "gender"
+          ],
+          "label": "Actor Gender",
+          "editable": false,
+          "sortalbe": true
+        },
+        {
+          "key": [
+            "person",
+            "birthDate"
+          ],
+          "label": "Actor Birth Date",
+          "editable": false,
+          "sortalbe": true
+        },
+        {
+          "key": [
+            "person",
+            "description"
+          ],
+          "label": "Actor Description",
           "editable": false,
           "sortalbe": true
         }
@@ -109,6 +266,42 @@
           "label": "id",
           "editable": false,
           "sortalbe": true
+        },
+        {
+          "key": "title",
+          "label": "Title",
+          "editable": true,
+          "sortalbe": true
+        },
+        {
+          "key": "description",
+          "label": "Description",
+          "editable": true,
+          "sortalbe": true
+        },
+        {
+          "key": "startDate",
+          "label": "Starting Date",
+          "editable": true,
+          "sortalbe": true
+        },
+        {
+          "key": "endDate",
+          "label": "Ending Date",
+          "editable": true,
+          "sortalbe": true
+        },
+        {
+          "key": "dateCreated",
+          "label": "Creation Date",
+          "editable": true,
+          "sortalbe": true
+        },
+        {
+          "key": "dateModified",
+          "label": "Modification Date",
+          "editable": true,
+          "sortalbe": true
         }
       ]
     },
@@ -122,6 +315,42 @@
           "label": "id",
           "editable": false,
           "sortalbe": true
+        },
+        {
+          "key": "title",
+          "label": "Title",
+          "editable": true,
+          "sortalbe": true
+        },
+        {
+          "key": "description",
+          "label": "Description",
+          "editable": true,
+          "sortalbe": true
+        },
+        {
+          "key": "startDate",
+          "label": "Starting Date",
+          "editable": true,
+          "sortalbe": true
+        },
+        {
+          "key": "endDate",
+          "label": "Ending Date",
+          "editable": true,
+          "sortalbe": true
+        },
+        {
+          "key": "dateCreated",
+          "label": "Creation Date",
+          "editable": true,
+          "sortalbe": true
+        },
+        {
+          "key": "dateModified",
+          "label": "Modification Date",
+          "editable": true,
+          "sortalbe": true
         }
       ]
     },
@@ -134,6 +363,39 @@
           "key": "id",
           "label": "id",
           "editable": false,
+          "sortalbe": true
+        },
+        {
+          "key": [
+            "creator",
+            "id"
+          ],
+          "label": "Creator Id",
+          "editable": false,
+          "sortalbe": true
+        },
+        {
+          "key": "about",
+          "label": "About",
+          "editable": true,
+          "sortalbe": true
+        },
+        {
+          "key": "commentText",
+          "label": "Comment Text",
+          "editable": true,
+          "sortalbe": true
+        },
+        {
+          "key": "dateCreated",
+          "label": "Creation Date",
+          "editable": true,
+          "sortalbe": true
+        },
+        {
+          "key": "dateModified",
+          "label": "Modification Date",
+          "editable": true,
           "sortalbe": true
         }
       ]
