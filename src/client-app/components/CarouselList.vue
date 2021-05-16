@@ -1,6 +1,6 @@
 <template>
   <v-carousel hide-delimiters width="350" v-if="moviesList">
-    <h2>|Headline 1</h2>
+    <h2 class="black--text">|Top Movies</h2>
     <v-carousel-item v-for="(sublist, i) in moviesList" :key="'movieList_' + i">
       <div class="d-flex">
         <MovieCard
@@ -10,6 +10,7 @@
           :Movietitle="movie.headline"
           :year="movie.datePublished"
           :runtime="movie.duration"
+          :rating="movie.rating"
         />
       </div>
     </v-carousel-item>
@@ -62,7 +63,7 @@ export default {
         this.moviesList = groupedMovies;
       }
     });
-    this.$store.dispatch("movies/FETCH_MOVIES");
+    this.$store.dispatch("movies/fetchMovies");
   },
 };
 </script>

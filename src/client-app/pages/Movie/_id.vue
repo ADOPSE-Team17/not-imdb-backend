@@ -1,6 +1,5 @@
 <template>
   <div class="pa-16">
-    <small>ID : {{ this.$route.params.id }}</small>
     <v-sheet>
       <v-skeleton-loader
         v-if="!movie"

@@ -1,8 +1,5 @@
 <template>
-  <ProfileEdit
-    :account="this.$store.getters['auth/account']"
-    :watchlist="this.$store.getters['movies/getWatchlist']"
-  />
+  <ProfileEdit/>
 </template>
 
 <script>

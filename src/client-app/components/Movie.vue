@@ -6,7 +6,7 @@
     <v-img
       class="white--text align-end"
       height="200px"
-      src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+      src="https://cdn.vuetifyjs.com/images/cards/road.jpg"
     >
       <v-card-title>{{movieTitle}}</v-card-title>
     </v-img>
@@ -50,19 +50,26 @@
                 <v-list-item-title>Soundtrack made by {{musicBy}}</v-list-item-title>
             </v-list-item-content>
         </v-list-item>
-        
+        <v-list-item>
+            <v-list-item-content v-if="musicBy">
+                <v-list-item-title>Rating: {{movie.rating}}/10</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
     </v-card-text>
 
     <v-card-actions>
         <v-col>
+            <a :href="trailer">
             <v-chip 
                 draggable class="ml-16"
             >
                 See trailer
             </v-chip>
-            </v-col>
+            </a>
+            
             <v-icon @click="ja">mdi-star</v-icon>
             <small>Add to Watchlist</small>
+        </v-col>
     </v-card-actions>
   </v-card>
 </template>
@@ -105,13 +112,14 @@ export default {
     },
     data(){
         return{
+            rating:Math.floor(Math.random() * 5.0),
             movie : this.$store.getters['movies/getFetchedMovieById']
         }
     },
     methods:{
         ja(){
             this.$store.dispatch('movies/addToWatchlist',this.movie)
-        }
+        },
     }
 
 }
